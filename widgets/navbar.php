@@ -50,6 +50,60 @@ class Elementor_Kami_K1_Navbar_Widget extends \Elementor\Widget_Base {
 		);
 
 		$this->add_control(
+			'link_1_label',
+			[
+				'label' => esc_html__( 'Link 1 Label', 'kami-k1-elementor-addon' ),
+				'type' => \Elementor\Controls_Manager::TEXT,
+				'default' => esc_html__( '01 / Scrollytelling', 'kami-k1-elementor-addon' ),
+			]
+		);
+
+		$this->add_control(
+			'link_1_url',
+			[
+				'label' => esc_html__( 'Link 1 URL/Anchor', 'kami-k1-elementor-addon' ),
+				'type' => \Elementor\Controls_Manager::TEXT,
+				'default' => '#scrollytelling',
+			]
+		);
+
+		$this->add_control(
+			'link_2_label',
+			[
+				'label' => esc_html__( 'Link 2 Label', 'kami-k1-elementor-addon' ),
+				'type' => \Elementor\Controls_Manager::TEXT,
+				'default' => esc_html__( '02 / Engineering Specs', 'kami-k1-elementor-addon' ),
+			]
+		);
+
+		$this->add_control(
+			'link_2_url',
+			[
+				'label' => esc_html__( 'Link 2 URL/Anchor', 'kami-k1-elementor-addon' ),
+				'type' => \Elementor\Controls_Manager::TEXT,
+				'default' => '#specs',
+			]
+		);
+
+		$this->add_control(
+			'link_3_label',
+			[
+				'label' => esc_html__( 'Link 3 Label', 'kami-k1-elementor-addon' ),
+				'type' => \Elementor\Controls_Manager::TEXT,
+				'default' => esc_html__( '03 / Acquire', 'kami-k1-elementor-addon' ),
+			]
+		);
+
+		$this->add_control(
+			'link_3_url',
+			[
+				'label' => esc_html__( 'Link 3 URL/Anchor', 'kami-k1-elementor-addon' ),
+				'type' => \Elementor\Controls_Manager::TEXT,
+				'default' => '#order',
+			]
+		);
+
+		$this->add_control(
 			'cta_label',
 			[
 				'label' => esc_html__( 'CTA Button Label', 'kami-k1-elementor-addon' ),
@@ -92,9 +146,9 @@ class Elementor_Kami_K1_Navbar_Widget extends \Elementor\Widget_Base {
 
 					<!-- Desktop Nav Links -->
 					<nav class="kami-k1-nav-links">
-						<a href="#scrollytelling">01 / Scrollytelling</a>
-						<a href="#specs">02 / Engineering Specs</a>
-						<a href="#order">03 / Acquire</a>
+						<a href="<?php echo esc_attr( $settings['link_1_url'] ); ?>"><?php echo esc_html( $settings['link_1_label'] ); ?></a>
+						<a href="<?php echo esc_attr( $settings['link_2_url'] ); ?>"><?php echo esc_html( $settings['link_2_label'] ); ?></a>
+						<a href="<?php echo esc_attr( $settings['link_3_url'] ); ?>"><?php echo esc_html( $settings['link_3_label'] ); ?></a>
 					</nav>
 
 					<!-- Desktop CTA -->
@@ -117,9 +171,9 @@ class Elementor_Kami_K1_Navbar_Widget extends \Elementor\Widget_Base {
 
 				<!-- Mobile Drawer -->
 				<div id="kami-k1-mobile-drawer" class="kami-k1-mobile-drawer">
-					<a href="#scrollytelling" onclick="document.getElementById('kami-k1-mobile-drawer').classList.remove('open')">01 / SCROLLYTELLING</a>
-					<a href="#specs" onclick="document.getElementById('kami-k1-mobile-drawer').classList.remove('open')">02 / ENGINEERING SPECS</a>
-					<a href="#order" onclick="document.getElementById('kami-k1-mobile-drawer').classList.remove('open')">03 / ACQUIRE</a>
+					<a href="<?php echo esc_attr( $settings['link_1_url'] ); ?>" onclick="document.getElementById('kami-k1-mobile-drawer').classList.remove('open')"><?php echo esc_html( $settings['link_1_label'] ); ?></a>
+					<a href="<?php echo esc_attr( $settings['link_2_url'] ); ?>" onclick="document.getElementById('kami-k1-mobile-drawer').classList.remove('open')"><?php echo esc_html( $settings['link_2_label'] ); ?></a>
+					<a href="<?php echo esc_attr( $settings['link_3_url'] ); ?>" onclick="document.getElementById('kami-k1-mobile-drawer').classList.remove('open')"><?php echo esc_html( $settings['link_3_label'] ); ?></a>
 					<a href="<?php echo esc_attr( $settings['cta_link'] ); ?>" class="mobile-cta" onclick="document.getElementById('kami-k1-mobile-drawer').classList.remove('open')">
 						<?php echo esc_html( $settings['cta_label'] ); ?>
 					</a>

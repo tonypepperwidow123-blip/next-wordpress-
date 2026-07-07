@@ -40,11 +40,20 @@ class Elementor_Kami_K1_Reservation_CTA_Widget extends \Elementor\Widget_Base {
 		);
 
 		$this->add_control(
-			'title',
+			'title_first',
 			[
-				'label' => esc_html__( 'Main Title', 'kami-k1-elementor-addon' ),
+				'label' => esc_html__( 'Title First Line', 'kami-k1-elementor-addon' ),
 				'type' => \Elementor\Controls_Manager::TEXT,
-				'default' => esc_html__( 'JOIN THE VANGUARD', 'kami-k1-elementor-addon' ),
+				'default' => esc_html__( 'JOIN THE', 'kami-k1-elementor-addon' ),
+			]
+		);
+
+		$this->add_control(
+			'title_second',
+			[
+				'label' => esc_html__( 'Title Second Line', 'kami-k1-elementor-addon' ),
+				'type' => \Elementor\Controls_Manager::TEXT,
+				'default' => esc_html__( 'VANGUARD', 'kami-k1-elementor-addon' ),
 			]
 		);
 
@@ -54,6 +63,159 @@ class Elementor_Kami_K1_Reservation_CTA_Widget extends \Elementor\Widget_Base {
 				'label' => esc_html__( 'Main Description', 'kami-k1-elementor-addon' ),
 				'type' => \Elementor\Controls_Manager::TEXTAREA,
 				'default' => esc_html__( 'Kami K1 is built in limited, serialized batches. Reserve your unit from Batch 04 now to secure launch pricing and early shipping.', 'kami-k1-elementor-addon' ),
+			]
+		);
+
+		$this->add_control(
+			'spec_item_1',
+			[
+				'label' => esc_html__( 'Spec List Item 1', 'kami-k1-elementor-addon' ),
+				'type' => \Elementor\Controls_Manager::TEXT,
+				'default' => esc_html__( 'Batches individually certified', 'kami-k1-elementor-addon' ),
+			]
+		);
+
+		$this->add_control(
+			'spec_item_2',
+			[
+				'label' => esc_html__( 'Spec List Item 2', 'kami-k1-elementor-addon' ),
+				'type' => \Elementor\Controls_Manager::TEXT,
+				'default' => esc_html__( '3-Year Hardware Warranty', 'kami-k1-elementor-addon' ),
+			]
+		);
+
+		$this->add_control(
+			'spec_item_3',
+			[
+				'label' => esc_html__( 'Spec List Item 3', 'kami-k1-elementor-addon' ),
+				'type' => \Elementor\Controls_Manager::TEXT,
+				'default' => esc_html__( 'Worldwide secure dispatch', 'kami-k1-elementor-addon' ),
+			]
+		);
+
+		$this->add_control(
+			'field_1_label',
+			[
+				'label' => esc_html__( 'Field 1 Label', 'kami-k1-elementor-addon' ),
+				'type' => \Elementor\Controls_Manager::TEXT,
+				'default' => esc_html__( '01 / CHOOSE MODEL EDITION', 'kami-k1-elementor-addon' ),
+			]
+		);
+
+		$this->add_control(
+			'field_1_opt_1',
+			[
+				'label' => esc_html__( 'Model Option 1', 'kami-k1-elementor-addon' ),
+				'type' => \Elementor\Controls_Manager::TEXT,
+				'default' => esc_html__( 'CARBON BLACK', 'kami-k1-elementor-addon' ),
+			]
+		);
+
+		$this->add_control(
+			'field_1_opt_2',
+			[
+				'label' => esc_html__( 'Model Option 2', 'kami-k1-elementor-addon' ),
+				'type' => \Elementor\Controls_Manager::TEXT,
+				'default' => esc_html__( 'LUNAR WHITE', 'kami-k1-elementor-addon' ),
+			]
+		);
+
+		$this->add_control(
+			'field_2_label',
+			[
+				'label' => esc_html__( 'Field 2 Label', 'kami-k1-elementor-addon' ),
+				'type' => \Elementor\Controls_Manager::TEXT,
+				'default' => esc_html__( '02 / SELECT SWITCH TYPE', 'kami-k1-elementor-addon' ),
+			]
+		);
+
+		$this->add_control(
+			'field_2_opt_1',
+			[
+				'label' => esc_html__( 'Switch Option 1', 'kami-k1-elementor-addon' ),
+				'type' => \Elementor\Controls_Manager::TEXT,
+				'default' => esc_html__( 'TACTILE ORANGE', 'kami-k1-elementor-addon' ),
+			]
+		);
+
+		$this->add_control(
+			'field_2_opt_2',
+			[
+				'label' => esc_html__( 'Switch Option 2', 'kami-k1-elementor-addon' ),
+				'type' => \Elementor\Controls_Manager::TEXT,
+				'default' => esc_html__( 'LINEAR RED', 'kami-k1-elementor-addon' ),
+			]
+		);
+
+		$this->add_control(
+			'field_3_label',
+			[
+				'label' => esc_html__( 'Field 3 Label (Name)', 'kami-k1-elementor-addon' ),
+				'type' => \Elementor\Controls_Manager::TEXT,
+				'default' => esc_html__( '03 / YOUR NAME', 'kami-k1-elementor-addon' ),
+			]
+		);
+
+		$this->add_control(
+			'field_3_placeholder',
+			[
+				'label' => esc_html__( 'Name Field Placeholder', 'kami-k1-elementor-addon' ),
+				'type' => \Elementor\Controls_Manager::TEXT,
+				'default' => esc_html__( 'e.g. MARCUS AURELIUS', 'kami-k1-elementor-addon' ),
+			]
+		);
+
+		$this->add_control(
+			'field_4_label',
+			[
+				'label' => esc_html__( 'Field 4 Label (Email)', 'kami-k1-elementor-addon' ),
+				'type' => \Elementor\Controls_Manager::TEXT,
+				'default' => esc_html__( '04 / EMAIL NODE ADDRESS', 'kami-k1-elementor-addon' ),
+			]
+		);
+
+		$this->add_control(
+			'field_4_placeholder',
+			[
+				'label' => esc_html__( 'Email Field Placeholder', 'kami-k1-elementor-addon' ),
+				'type' => \Elementor\Controls_Manager::TEXT,
+				'default' => esc_html__( 'e.g. COGNITIVE@KAMI.TECH', 'kami-k1-elementor-addon' ),
+			]
+		);
+
+		$this->add_control(
+			'submit_label',
+			[
+				'label' => esc_html__( 'Submit Button Label', 'kami-k1-elementor-addon' ),
+				'type' => \Elementor\Controls_Manager::TEXT,
+				'default' => esc_html__( 'TRANSMIT RESERVATION REQUEST', 'kami-k1-elementor-addon' ),
+			]
+		);
+
+		$this->add_control(
+			'success_title_first',
+			[
+				'label' => esc_html__( 'Success Title First Word', 'kami-k1-elementor-addon' ),
+				'type' => \Elementor\Controls_Manager::TEXT,
+				'default' => esc_html__( 'RESERVATION', 'kami-k1-elementor-addon' ),
+			]
+		);
+
+		$this->add_control(
+			'success_title_second',
+			[
+				'label' => esc_html__( 'Success Title Second Word', 'kami-k1-elementor-addon' ),
+				'type' => \Elementor\Controls_Manager::TEXT,
+				'default' => esc_html__( 'COMMITTED', 'kami-k1-elementor-addon' ),
+			]
+		);
+
+		$this->add_control(
+			'success_reset_label',
+			[
+				'label' => esc_html__( 'Success Reset Button Label', 'kami-k1-elementor-addon' ),
+				'type' => \Elementor\Controls_Manager::TEXT,
+				'default' => esc_html__( 'SUBMIT ANOTHER NODE', 'kami-k1-elementor-addon' ),
 			]
 		);
 
@@ -78,7 +240,7 @@ class Elementor_Kami_K1_Reservation_CTA_Widget extends \Elementor\Widget_Base {
 								<span class="dot"></span>
 								<span><?php echo esc_html( $settings['batch_info'] ); ?></span>
 							</div>
-							<h2>JOIN THE <br/><span>VANGUARD</span></h2>
+							<h2><?php echo esc_html( $settings['title_first'] ); ?> <br/><span><?php echo esc_html( $settings['title_second'] ); ?></span></h2>
 							<p><?php echo esc_html( $settings['desc'] ); ?></p>
 
 							<div class="kami-k1-cta-specs-list font-mono">
@@ -86,19 +248,19 @@ class Elementor_Kami_K1_Reservation_CTA_Widget extends \Elementor\Widget_Base {
 									<svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
 										<path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
 									</svg>
-									<span>Batches individually certified</span>
+									<span><?php echo esc_html( $settings['spec_item_1'] ); ?></span>
 								</div>
 								<div class="kami-k1-cta-spec-item">
 									<svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
 										<path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
 									</svg>
-									<span>3-Year Hardware Warranty</span>
+									<span><?php echo esc_html( $settings['spec_item_2'] ); ?></span>
 								</div>
 								<div class="kami-k1-cta-spec-item">
 									<svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
 										<path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
 									</svg>
-									<span>Worldwide secure dispatch</span>
+									<span><?php echo esc_html( $settings['spec_item_3'] ); ?></span>
 								</div>
 							</div>
 						</div>
@@ -117,16 +279,16 @@ class Elementor_Kami_K1_Reservation_CTA_Widget extends \Elementor\Widget_Base {
 
 										<!-- Step 1: Model Choice -->
 										<div style="margin-bottom: 1.5rem;">
-											<label class="kami-k1-field-label">01 / CHOOSE MODEL EDITION</label>
+											<label class="kami-k1-field-label"><?php echo esc_html( $settings['field_1_label'] ); ?></label>
 											<div class="kami-k1-grid-choices">
 												<button type="button" class="kami-k1-choice-btn model-choice-btn selected" data-value="carbon">
-													<span>CARBON BLACK</span>
+													<span><?php echo esc_html( $settings['field_1_opt_1'] ); ?></span>
 													<svg viewBox="0 0 20 20" fill="currentColor">
 														<path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
 													</svg>
 												</button>
 												<button type="button" class="kami-k1-choice-btn model-choice-btn" data-value="lunar">
-													<span>LUNAR WHITE</span>
+													<span><?php echo esc_html( $settings['field_1_opt_2'] ); ?></span>
 													<svg viewBox="0 0 20 20" fill="currentColor">
 														<path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
 													</svg>
@@ -136,16 +298,16 @@ class Elementor_Kami_K1_Reservation_CTA_Widget extends \Elementor\Widget_Base {
 
 										<!-- Step 2: Switch Choice -->
 										<div style="margin-bottom: 1.5rem;">
-											<label class="kami-k1-field-label">02 / SELECT SWITCH TYPE</label>
+											<label class="kami-k1-field-label"><?php echo esc_html( $settings['field_2_label'] ); ?></label>
 											<div class="kami-k1-grid-choices">
 												<button type="button" class="kami-k1-choice-btn switch-choice-btn selected" data-value="tactile">
-													<span>TACTILE ORANGE</span>
+													<span><?php echo esc_html( $settings['field_2_opt_1'] ); ?></span>
 													<svg viewBox="0 0 20 20" fill="currentColor">
 														<path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
 													</svg>
 												</button>
 												<button type="button" class="kami-k1-choice-btn switch-choice-btn" data-value="linear">
-													<span>LINEAR RED</span>
+													<span><?php echo esc_html( $settings['field_2_opt_2'] ); ?></span>
 													<svg viewBox="0 0 20 20" fill="currentColor">
 														<path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
 													</svg>
@@ -156,18 +318,18 @@ class Elementor_Kami_K1_Reservation_CTA_Widget extends \Elementor\Widget_Base {
 										<!-- Step 3: Text Inputs -->
 										<div class="kami-k1-text-inputs" style="margin-bottom: 1.5rem;">
 											<div class="kami-k1-input-group">
-												<label class="kami-k1-field-label">03 / YOUR NAME</label>
-												<input type="text" id="kami-k1-input-name" required placeholder="e.g. MARCUS AURELIUS">
+												<label class="kami-k1-field-label"><?php echo esc_html( $settings['field_3_label'] ); ?></label>
+												<input type="text" id="kami-k1-input-name" required placeholder="<?php echo esc_attr( $settings['field_3_placeholder'] ); ?>">
 											</div>
 											<div class="kami-k1-input-group">
-												<label class="kami-k1-field-label">04 / EMAIL NODE ADDRESS</label>
-												<input type="email" id="kami-k1-input-email" required placeholder="e.g. COGNITIVE@KAMI.TECH">
+												<label class="kami-k1-field-label"><?php echo esc_html( $settings['field_4_label'] ); ?></label>
+												<input type="email" id="kami-k1-input-email" required placeholder="<?php echo esc_attr( $settings['field_4_placeholder'] ); ?>">
 											</div>
 										</div>
 
 										<!-- Submit Button -->
 										<button type="submit" id="kami-k1-btn-transmit" class="kami-k1-submit-btn">
-											<span>TRANSMIT RESERVATION REQUEST</span>
+											<span><?php echo esc_html( $settings['submit_label'] ); ?></span>
 											<svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
 												<path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
 											</svg>
@@ -193,12 +355,12 @@ class Elementor_Kami_K1_Reservation_CTA_Widget extends \Elementor\Widget_Base {
 											<path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
 										</svg>
 									</div>
-									<h3>RESERVATION <span>COMMITTED</span></h3>
+									<h3><?php echo esc_html( $settings['success_title_first'] ); ?> <span><?php echo esc_html( $settings['success_title_second'] ); ?></span></h3>
 									<p id="kami-k1-success-details">
 										Thank you, <span id="kami-k1-success-name" class="highlight"></span>. Your reservation request for Kami K1 is secured.
 									</p>
 									<button id="kami-k1-success-reset" class="kami-k1-success-reset font-mono">
-										SUBMIT ANOTHER NODE
+										<?php echo esc_html( $settings['success_reset_label'] ); ?>
 									</button>
 								</div>
 
