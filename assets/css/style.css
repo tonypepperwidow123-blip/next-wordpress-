@@ -2118,3 +2118,64 @@ body, html, #page, #content, .site, .site-content, .wp-site-blocks, .entry-conte
   color: #ffffff !important;
   text-decoration: none !important;
 }
+
+
+/* ─── CUSTOM HOTFIXES BY ANTIGRAVITY ─── */
+
+/* 1. Remove forced underlines from navbar links and CTA */
+.kami-k1-navbar a,
+.kami-k1-nav-links a,
+.kami-k1-navbar-cta a,
+.kami-k1-mobile-drawer a {
+  text-decoration: none !important;
+}
+
+/* 2. Align navbar container with the 1200px grid on desktop */
+.kami-k1-navbar-container {
+  max-width: 1200px !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+/* On screens smaller than 1200px, give it padding to avoid touching edge */
+@media screen and (max-width: 1200px) {
+  .kami-k1-navbar-container {
+    padding-left: 1.5rem !important;
+    padding-right: 1.5rem !important;
+  }
+}
+
+/* 3. Eliminate layout gap / white screen issue between scrollytelling and specs section */
+body .elementor-section:has(.kami-k1-scrollytelling-container),
+body .elementor-column:has(.kami-k1-scrollytelling-container),
+body .elementor-widget-kami-k1-scrollytelling {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.elementor-element-29c6460 {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Force body and site backgrounds black at all times to avoid flashing white */
+body, html, #page, #content, .site, .site-content, .wp-site-blocks, .entry-content, .ast-container, #primary, #main {
+  background-color: #000000 !important;
+}
+
+
+/* ─── FOOTER HOTFIX BY ANTIGRAVITY ─── */
+.site-footer,
+.site-footer-focus-item,
+.site-below-footer-wrap,
+.ast-builder-grid-row-container {
+  background-color: #000000 !important;
+  color: #a3a3a3 !important;
+  border-top: 1px solid #171717 !important;
+}
+
+.site-footer a,
+.site-below-footer-wrap a {
+  color: #ffffff !important;
+  text-decoration: none !important;
+}
