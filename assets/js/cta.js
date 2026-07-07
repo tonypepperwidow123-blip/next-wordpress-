@@ -60,11 +60,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Terminal logging phrases
     const steps = [
-      "PINGING SECURE STORAGE RELAY...",
-      "HANDSHAKE ACCEPTED // RESOLVING KAMI_K1_RESERVE...",
-      "TRANSMITTING USER DATA NODE...",
-      "ALLOCATING SERIAL: KM-K1-OLED-" + Math.floor(100000 + Math.random() * 900000),
-      "COMMIT TRANSACTION OK // RESERVATION SECURED."
+      wrapper.dataset.terminalStep1 || "PINGING SECURE STORAGE RELAY...",
+      wrapper.dataset.terminalStep2 || "HANDSHAKE ACCEPTED // RESOLVING KAMI_K1_RESERVE...",
+      wrapper.dataset.terminalStep3 || "TRANSMITTING USER DATA NODE...",
+      (wrapper.dataset.terminalStep4 || "ALLOCATING SERIAL: KM-K1-OLED-") + Math.floor(100000 + Math.random() * 900000),
+      wrapper.dataset.terminalStep5 || "COMMIT TRANSACTION OK // RESERVATION SECURED."
     ];
 
     // Handle Submit
@@ -100,7 +100,12 @@ document.addEventListener("DOMContentLoaded", () => {
               // Fill success values
               if (successName) successName.textContent = nameVal;
               if (successDetails) {
-                successDetails.innerHTML = `Thank you, <span class="highlight">${escapeHTML(nameVal)}</span>. Your reservation request for Kami K1 (<span class="highlight">${escapeHTML(selectedModel).toUpperCase()} Edition</span> / <span class="highlight">${escapeHTML(selectedSwitch).toUpperCase()} switches</span>) is secured. An encrypted receipt has been sent to <span class="highlight">${escapeHTML(emailVal)}</span>.`;
+                const successMsg1 = wrapper.dataset.successMsg1 || "Thank you, ";
+                const successMsg2 = wrapper.dataset.successMsg2 || ". Your reservation request for Kami K1 (";
+                const successMsg3 = wrapper.dataset.successMsg3 || " Edition / ";
+                const successMsg4 = wrapper.dataset.successMsg4 || " switches) is secured. An encrypted receipt has been sent to ";
+                const successMsg5 = wrapper.dataset.successMsg5 || ".";
+                successDetails.innerHTML = `${successMsg1}<span class="highlight">${escapeHTML(nameVal)}</span>${successMsg2}<span class="highlight">${escapeHTML(selectedModel).toUpperCase()}</span>${successMsg3}<span class="highlight">${escapeHTML(selectedSwitch).toUpperCase()}</span>${successMsg4}<span class="highlight">${escapeHTML(emailVal)}</span>${successMsg5}`;
               }
             }, 1000);
             return;

@@ -122,6 +122,86 @@ class Elementor_Kami_K1_Navbar_Widget extends \Elementor\Widget_Base {
 		);
 
 		$this->end_controls_section();
+
+		// Style Section for border-radius customization
+		$this->start_controls_section(
+			'style_section',
+			[
+				'label' => esc_html__( 'Style Settings', 'kami-k1-elementor-addon' ),
+				'tab' => \Elementor\Controls_Manager::TAB_STYLE,
+			]
+		);
+
+		$this->add_responsive_control(
+			'brand_icon_border_radius',
+			[
+				'label' => esc_html__( 'Brand Icon Border Radius', 'kami-k1-elementor-addon' ),
+				'type' => \Elementor\Controls_Manager::SLIDER,
+				'size_units' => [ 'px', '%', 'em', 'rem', 'custom' ],
+				'range' => [
+					'px' => [
+						'min' => 0,
+						'max' => 100,
+						'step' => 1,
+					],
+				],
+				'default' => [
+					'unit' => 'px',
+					'size' => 4,
+				],
+				'selectors' => [
+					'{{WRAPPER}} .kami-k1-brand-icon' => 'border-radius: {{SIZE}}{{UNIT}};',
+				],
+			]
+		);
+
+		$this->add_responsive_control(
+			'cta_btn_border_radius',
+			[
+				'label' => esc_html__( 'CTA Button Border Radius', 'kami-k1-elementor-addon' ),
+				'type' => \Elementor\Controls_Manager::SLIDER,
+				'size_units' => [ 'px', '%', 'em', 'rem', 'custom' ],
+				'range' => [
+					'px' => [
+						'min' => 0,
+						'max' => 100,
+						'step' => 1,
+					],
+				],
+				'default' => [
+					'unit' => 'px',
+					'size' => 4,
+				],
+				'selectors' => [
+					'{{WRAPPER}} .kami-k1-navbar-cta a' => 'border-radius: {{SIZE}}{{UNIT}};',
+				],
+			]
+		);
+
+		$this->add_responsive_control(
+			'mobile_cta_btn_border_radius',
+			[
+				'label' => esc_html__( 'Mobile CTA Button Border Radius', 'kami-k1-elementor-addon' ),
+				'type' => \Elementor\Controls_Manager::SLIDER,
+				'size_units' => [ 'px', '%', 'em', 'rem', 'custom' ],
+				'range' => [
+					'px' => [
+						'min' => 0,
+						'max' => 100,
+						'step' => 1,
+					],
+				],
+				'default' => [
+					'unit' => 'px',
+					'size' => 4,
+				],
+				'selectors' => [
+					'{{WRAPPER}} .kami-k1-mobile-drawer a.mobile-cta' => 'border-radius: {{SIZE}}{{UNIT}};',
+				],
+			]
+		);
+
+		$this->end_controls_section();
 	}
 
 	protected function render() {

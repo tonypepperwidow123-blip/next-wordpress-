@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", () => {
     ? KamiK1Addon.framesUrl
     : "/wp-content/plugins/next-wordpress-/assets/frames/";
 
-  const TECH_PHRASES = [
+  let TECH_PHRASES = [
     "DECODING HARDWARE GEOMETRY...",
     "BUFFERING HIGH-FIDELITY ASSETS...",
     "ESTABLISHING CANVAS FRAMEBUFFER...",
@@ -47,6 +47,16 @@ document.addEventListener("DOMContentLoaded", () => {
     "COMPASS ALIGNMENT COMPLETED...",
     "ALL SYSTEMS OPERATIONAL..."
   ];
+  if (scrollSpacer.dataset.phrases) {
+    try {
+      const parsedPhrases = JSON.parse(scrollSpacer.dataset.phrases);
+      if (Array.isArray(parsedPhrases) && parsedPhrases.length > 0) {
+        TECH_PHRASES = parsedPhrases;
+      }
+    } catch (e) {
+      console.error("Kami K1: Error parsing dynamic phrases", e);
+    }
+  }
 
   // ─── State ────────────────────────────────────────────────────────────────
   const images      = new Array(TOTAL_FRAMES);
@@ -130,7 +140,11 @@ document.addEventListener("DOMContentLoaded", () => {
     // Update preloader UI
     if (percentText) percentText.childNodes[0].nodeValue = `${pct}%`;
     if (progressBar) progressBar.style.width = `${pct}%`;
-    if (decodedEl)   decodedEl.textContent = `${Math.round(pct * 1.92)} / 192 FRAMES`;
+    if (decodedEl) {
+      const labelDecoded = scrollSpacer.dataset.labelDecoded || "DECODED";
+      const labelFrames = scrollSpacer.dataset.labelFrames || "FRAMES";
+      decodedEl.textContent = `${labelDecoded}: ${Math.round(pct * 1.92)} / 192 ${labelFrames}`;
+    }
 
     if (loadedCount === TOTAL_FRAMES) onPreloadComplete();
   }
@@ -187,14 +201,17 @@ document.addEventListener("DOMContentLoaded", () => {
     if (hudTelemetryAngle) hudTelemetryAngle.textContent = `${fakeAngle}°`;
 
     if (hudStatusState) {
+      const statusStable = scrollSpacer.dataset.statusStable || "SYS_STABLE / ASSEMBLED";
+      const statusTransition = scrollSpacer.dataset.statusTransition || "SYS_TRANSITION / ACTIVE";
+      const statusCritical = scrollSpacer.dataset.statusCritical || "CRIT_EXPLODED / SHUTDOWN";
       if (progress <= 0.05) {
-        hudStatusState.textContent = "SYS_STABLE / ASSEMBLED";
+        hudStatusState.textContent = statusStable;
         hudStatusState.style.color = "#737373";
       } else if (progress >= 0.75) {
-        hudStatusState.textContent = "CRIT_EXPLODED / SHUTDOWN";
+        hudStatusState.textContent = statusCritical;
         hudStatusState.style.color = "#ef4444";
       } else {
-        hudStatusState.textContent = "SYS_TRANSITION / ACTIVE";
+        hudStatusState.textContent = statusTransition;
         hudStatusState.style.color = "#f97316";
       }
     }

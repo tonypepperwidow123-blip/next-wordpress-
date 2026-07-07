@@ -377,6 +377,360 @@ class Elementor_Kami_K1_Scrollytelling_Widget extends \Elementor\Widget_Base {
 		);
 
 		$this->end_controls_section();
+
+		// Content Section for telemetry and preloader labels
+		$this->start_controls_section(
+			'telemetry_labels_section',
+			[
+				'label' => esc_html__( 'Preloader & HUD Telemetry Strings', 'kami-k1-elementor-addon' ),
+				'tab' => \Elementor\Controls_Manager::TAB_CONTENT,
+			]
+		);
+
+		$this->add_control(
+			'preloader_workspace',
+			[
+				'label'   => esc_html__( 'Preloader Workspace Meta Text', 'kami-k1-elementor-addon' ),
+				'type'    => \Elementor\Controls_Manager::TEXT,
+				'default' => esc_html__( 'WORKSPACE: DESKTOP-3D-WEST', 'kami-k1-elementor-addon' ),
+			]
+		);
+
+		$this->add_control(
+			'preloader_ip',
+			[
+				'label'   => esc_html__( 'Preloader IP Meta Text', 'kami-k1-elementor-addon' ),
+				'type'    => \Elementor\Controls_Manager::TEXT,
+				'default' => esc_html__( 'IP: 127.0.0.1 // LOCALHOST', 'kami-k1-elementor-addon' ),
+			]
+		);
+
+		$this->add_control(
+			'preloader_decoded_label',
+			[
+				'label'   => esc_html__( 'Preloader Decoded Label', 'kami-k1-elementor-addon' ),
+				'type'    => \Elementor\Controls_Manager::TEXT,
+				'default' => esc_html__( 'DECODED', 'kami-k1-elementor-addon' ),
+			]
+		);
+
+		$this->add_control(
+			'preloader_frames_label',
+			[
+				'label'   => esc_html__( 'Preloader Frames Word', 'kami-k1-elementor-addon' ),
+				'type'    => \Elementor\Controls_Manager::TEXT,
+				'default' => esc_html__( 'FRAMES', 'kami-k1-elementor-addon' ),
+			]
+		);
+
+		$this->add_control(
+			'preloader_cache_label',
+			[
+				'label'   => esc_html__( 'Preloader Cache Label', 'kami-k1-elementor-addon' ),
+				'type'    => \Elementor\Controls_Manager::TEXT,
+				'default' => esc_html__( 'CACHE', 'kami-k1-elementor-addon' ),
+			]
+		);
+
+		$this->add_control(
+			'preloader_cache_value',
+			[
+				'label'   => esc_html__( 'Preloader Cache Value', 'kami-k1-elementor-addon' ),
+				'type'    => \Elementor\Controls_Manager::TEXT,
+				'default' => esc_html__( 'SESSION_STORAGE', 'kami-k1-elementor-addon' ),
+			]
+		);
+
+		$this->add_control(
+			'preloader_phrase_default',
+			[
+				'label'   => esc_html__( 'Preloader Default Phase text', 'kami-k1-elementor-addon' ),
+				'type'    => \Elementor\Controls_Manager::TEXT,
+				'default' => esc_html__( 'DECODING HARDWARE GEOMETRY...', 'kami-k1-elementor-addon' ),
+			]
+		);
+
+		$this->add_control(
+			'preloader_phrases',
+			[
+				'label'   => esc_html__( 'Cycling Phrases (One per line)', 'kami-k1-elementor-addon' ),
+				'type'    => \Elementor\Controls_Manager::TEXTAREA,
+				'default' => "DECODING HARDWARE GEOMETRY...\nBUFFERING HIGH-FIDELITY ASSETS...\nESTABLISHING CANVAS FRAMEBUFFER...\nSYNCHRONIZING SCROLL-TRIGGERS...\nOPTIMIZING COMPONENT EXPLOSION MAP...\nCALIBRATING TACTILE ACTUATION CURVES...\nSTABILIZING 2.4GHZ WIRELESS SIMULATOR...\nCOMPASS ALIGNMENT COMPLETED...\nALL SYSTEMS OPERATIONAL...",
+			]
+		);
+
+		$this->add_control(
+			'hud_diag_1_value',
+			[
+				'label'   => esc_html__( 'HUD Diag 1 Value', 'kami-k1-elementor-addon' ),
+				'type'    => \Elementor\Controls_Manager::TEXT,
+				'default' => esc_html__( 'STATE_ACTUATE: ON', 'kami-k1-elementor-addon' ),
+			]
+		);
+
+		$this->add_control(
+			'hud_diag_3_value',
+			[
+				'label'   => esc_html__( 'HUD Diag 3 Value', 'kami-k1-elementor-addon' ),
+				'type'    => \Elementor\Controls_Manager::TEXT,
+				'default' => esc_html__( '0.98 G', 'kami-k1-elementor-addon' ),
+			]
+		);
+
+		$this->add_control(
+			'hud_diag_4_value',
+			[
+				'label'   => esc_html__( 'HUD Diag 4 Value', 'kami-k1-elementor-addon' ),
+				'type'    => \Elementor\Controls_Manager::TEXT,
+				'default' => esc_html__( '3.72V // LI-ION', 'kami-k1-elementor-addon' ),
+			]
+		);
+
+		$this->add_control(
+			'hud_frame_index_label',
+			[
+				'label'   => esc_html__( 'HUD Frame Index Label', 'kami-k1-elementor-addon' ),
+				'type'    => \Elementor\Controls_Manager::TEXT,
+				'default' => esc_html__( 'FRAME_INDEX:', 'kami-k1-elementor-addon' ),
+			]
+		);
+
+		$this->add_control(
+			'hud_telemetry_label',
+			[
+				'label'   => esc_html__( 'HUD Telemetry Label', 'kami-k1-elementor-addon' ),
+				'type'    => \Elementor\Controls_Manager::TEXT,
+				'default' => esc_html__( 'TELEMETRY:', 'kami-k1-elementor-addon' ),
+			]
+		);
+
+		$this->add_control(
+			'hud_status_label',
+			[
+				'label'   => esc_html__( 'HUD Status Label', 'kami-k1-elementor-addon' ),
+				'type'    => \Elementor\Controls_Manager::TEXT,
+				'default' => esc_html__( 'STATUS:', 'kami-k1-elementor-addon' ),
+			]
+		);
+
+		$this->add_control(
+			'hud_status_stable',
+			[
+				'label'   => esc_html__( 'HUD Status Value: Stable', 'kami-k1-elementor-addon' ),
+				'type'    => \Elementor\Controls_Manager::TEXT,
+				'default' => esc_html__( 'SYS_STABLE / ASSEMBLED', 'kami-k1-elementor-addon' ),
+			]
+		);
+
+		$this->add_control(
+			'hud_status_transition',
+			[
+				'label'   => esc_html__( 'HUD Status Value: Transition', 'kami-k1-elementor-addon' ),
+				'type'    => \Elementor\Controls_Manager::TEXT,
+				'default' => esc_html__( 'SYS_TRANSITION / ACTIVE', 'kami-k1-elementor-addon' ),
+			]
+		);
+
+		$this->add_control(
+			'hud_status_critical',
+			[
+				'label'   => esc_html__( 'HUD Status Value: Critical', 'kami-k1-elementor-addon' ),
+				'type'    => \Elementor\Controls_Manager::TEXT,
+				'default' => esc_html__( 'CRIT_EXPLODED / SHUTDOWN', 'kami-k1-elementor-addon' ),
+			]
+		);
+
+		$this->add_control(
+			'hud_refresh_rate_label',
+			[
+				'label'   => esc_html__( 'HUD Refresh Rate Label', 'kami-k1-elementor-addon' ),
+				'type'    => \Elementor\Controls_Manager::TEXT,
+				'default' => esc_html__( 'REFRESH_RATE:', 'kami-k1-elementor-addon' ),
+			]
+		);
+
+		$this->add_control(
+			'hud_refresh_rate_value',
+			[
+				'label'   => esc_html__( 'HUD Refresh Rate Value', 'kami-k1-elementor-addon' ),
+				'type'    => \Elementor\Controls_Manager::TEXT,
+				'default' => esc_html__( '60.0 FPS', 'kami-k1-elementor-addon' ),
+			]
+		);
+
+		$this->end_controls_section();
+
+		// Style Section for border-radius customization
+		$this->start_controls_section(
+			'style_section',
+			[
+				'label' => esc_html__( 'Style Settings', 'kami-k1-elementor-addon' ),
+				'tab' => \Elementor\Controls_Manager::TAB_STYLE,
+			]
+		);
+
+		$this->add_responsive_control(
+			'logo_box_radius',
+			[
+				'label' => esc_html__( 'Logo Box Border Radius', 'kami-k1-elementor-addon' ),
+				'type' => \Elementor\Controls_Manager::SLIDER,
+				'size_units' => [ 'px', '%', 'em', 'rem', 'custom' ],
+				'range' => [
+					'px' => [
+						'min' => 0,
+						'max' => 100,
+						'step' => 1,
+					],
+				],
+				'default' => [
+					'unit' => 'px',
+					'size' => 4,
+				],
+				'selectors' => [
+					'{{WRAPPER}} .kami-k1-logo-box' => 'border-radius: {{SIZE}}{{UNIT}};',
+				],
+			]
+		);
+
+		$this->add_responsive_control(
+			'progress_bar_radius',
+			[
+				'label' => esc_html__( 'Progress Container Border Radius', 'kami-k1-elementor-addon' ),
+				'type' => \Elementor\Controls_Manager::SLIDER,
+				'size_units' => [ 'px', '%', 'em', 'rem', 'custom' ],
+				'range' => [
+					'px' => [
+						'min' => 0,
+						'max' => 100,
+						'step' => 1,
+					],
+				],
+				'default' => [
+					'unit' => 'px',
+					'size' => 9999,
+				],
+				'selectors' => [
+					'{{WRAPPER}} .kami-k1-progress-container' => 'border-radius: {{SIZE}}{{UNIT}};',
+				],
+			]
+		);
+
+		$this->add_responsive_control(
+			'hud_bottom_radius',
+			[
+				'label' => esc_html__( 'HUD Bottom Border Radius', 'kami-k1-elementor-addon' ),
+				'type' => \Elementor\Controls_Manager::SLIDER,
+				'size_units' => [ 'px', '%', 'em', 'rem', 'custom' ],
+				'range' => [
+					'px' => [
+						'min' => 0,
+						'max' => 100,
+						'step' => 1,
+					],
+				],
+				'default' => [
+					'unit' => 'px',
+					'size' => 4,
+				],
+				'selectors' => [
+					'{{WRAPPER}} .kami-k1-hud-bottom' => 'border-radius: {{SIZE}}{{UNIT}};',
+				],
+			]
+		);
+
+		$this->add_responsive_control(
+			'reserve_cta_radius',
+			[
+				'label' => esc_html__( 'Reserve CTA Border Radius', 'kami-k1-elementor-addon' ),
+				'type' => \Elementor\Controls_Manager::SLIDER,
+				'size_units' => [ 'px', '%', 'em', 'rem', 'custom' ],
+				'range' => [
+					'px' => [
+						'min' => 0,
+						'max' => 100,
+						'step' => 1,
+					],
+				],
+				'default' => [
+					'unit' => 'px',
+					'size' => 4,
+				],
+				'selectors' => [
+					'{{WRAPPER}} .cta-reserve' => 'border-radius: {{SIZE}}{{UNIT}};',
+				],
+			]
+		);
+
+		$this->add_responsive_control(
+			'specs_cta_radius',
+			[
+				'label' => esc_html__( 'Specs CTA Border Radius', 'kami-k1-elementor-addon' ),
+				'type' => \Elementor\Controls_Manager::SLIDER,
+				'size_units' => [ 'px', '%', 'em', 'rem', 'custom' ],
+				'range' => [
+					'px' => [
+						'min' => 0,
+						'max' => 100,
+						'step' => 1,
+					],
+				],
+				'default' => [
+					'unit' => 'px',
+					'size' => 4,
+				],
+				'selectors' => [
+					'{{WRAPPER}} .cta-specs' => 'border-radius: {{SIZE}}{{UNIT}};',
+				],
+			]
+		);
+
+		$this->add_responsive_control(
+			'mouse_icon_radius',
+			[
+				'label' => esc_html__( 'Mouse Icon Border Radius', 'kami-k1-elementor-addon' ),
+				'type' => \Elementor\Controls_Manager::SLIDER,
+				'size_units' => [ 'px', '%', 'em', 'rem', 'custom' ],
+				'range' => [
+					'px' => [
+						'min' => 0,
+						'max' => 100,
+						'step' => 1,
+					],
+				],
+				'default' => [
+					'unit' => 'px',
+					'size' => 9999,
+				],
+				'selectors' => [
+					'{{WRAPPER}} .kami-k1-mouse-icon' => 'border-radius: {{SIZE}}{{UNIT}};',
+				],
+			]
+		);
+
+		$this->add_responsive_control(
+			'mouse_wheel_radius',
+			[
+				'label' => esc_html__( 'Mouse Wheel Border Radius', 'kami-k1-elementor-addon' ),
+				'type' => \Elementor\Controls_Manager::SLIDER,
+				'size_units' => [ 'px', '%', 'em', 'rem', 'custom' ],
+				'range' => [
+					'px' => [
+						'min' => 0,
+						'max' => 100,
+						'step' => 1,
+					],
+				],
+				'default' => [
+					'unit' => 'px',
+					'size' => 9999,
+				],
+				'selectors' => [
+					'{{WRAPPER}} .kami-k1-mouse-wheel' => 'border-radius: {{SIZE}}{{UNIT}};',
+				],
+			]
+		);
+
+		$this->end_controls_section();
 	}
 
 	protected function render() {
@@ -394,8 +748,8 @@ class Elementor_Kami_K1_Scrollytelling_Widget extends \Elementor\Widget_Base {
 					<p style="color:var(--kami-accent);margin:4px 0 0 0;animation:pulse-slow 1.5s infinite;"><?php echo esc_html( $settings['preloader_version'] ); ?></p>
 				</div>
 				<div style="text-align:right;">
-					<p style="margin:0;">WORKSPACE: DESKTOP-3D-WEST</p>
-					<p style="margin:4px 0 0 0;">IP: 127.0.0.1 // LOCALHOST</p>
+					<p style="margin:0;"><?php echo esc_html( $settings['preloader_workspace'] ); ?></p>
+					<p style="margin:4px 0 0 0;"><?php echo esc_html( $settings['preloader_ip'] ); ?></p>
 				</div>
 			</div>
 
@@ -420,14 +774,14 @@ class Elementor_Kami_K1_Scrollytelling_Widget extends \Elementor\Widget_Base {
 					<div id="kami-k1-preloader-bar" class="kami-k1-progress-bar"></div>
 				</div>
 				<div id="kami-k1-preloader-phrase" class="kami-k1-preloader-phrase">
-					DECODING HARDWARE GEOMETRY...
+					<?php echo esc_html( $settings['preloader_phrase_default'] ); ?>
 				</div>
 			</div>
 
 			<div class="kami-k1-preloader-bottom">
 				<div style="display:flex;gap:1.5rem;margin-bottom:0.5rem;">
-					<p style="margin:0;">DECODED: <span id="kami-k1-preloader-decoded" style="color:#a3a3a3;">0 / 192 FRAMES</span></p>
-					<p style="margin:0;">CACHE: <span style="color:#a3a3a3;">SESSION_STORAGE</span></p>
+					<p style="margin:0;"><?php echo esc_html( $settings['preloader_decoded_label'] ); ?>: <span id="kami-k1-preloader-decoded" style="color:#a3a3a3;">0 / 192 <?php echo esc_html( $settings['preloader_frames_label'] ); ?></span></p>
+					<p style="margin:0;"><?php echo esc_html( $settings['preloader_cache_label'] ); ?>: <span style="color:#a3a3a3;"><?php echo esc_html( $settings['preloader_cache_value'] ); ?></span></p>
 				</div>
 				<div>
 					<p style="margin:0;"><?php echo esc_html( $settings['preloader_copyright'] ); ?></p>
@@ -439,7 +793,14 @@ class Elementor_Kami_K1_Scrollytelling_Widget extends \Elementor\Widget_Base {
 		   STICKY CONTAINER & CANVAS LAYER
 		   Matches the Next.js structure: sticky container inside 400vh spacer
 		   ========================================================= */ ?>
-		<div id="scrollytelling" class="kami-k1-scrollytelling-container">
+		<div id="scrollytelling" class="kami-k1-scrollytelling-container"
+			data-phrases="<?php echo esc_attr( wp_json_encode( explode( "\n", str_replace( "\r", "", $settings['preloader_phrases'] ) ) ) ); ?>"
+			data-label-decoded="<?php echo esc_attr( $settings['preloader_decoded_label'] ); ?>"
+			data-label-frames="<?php echo esc_attr( $settings['preloader_frames_label'] ); ?>"
+			data-status-stable="<?php echo esc_attr( $settings['hud_status_stable'] ); ?>"
+			data-status-transition="<?php echo esc_attr( $settings['hud_status_transition'] ); ?>"
+			data-status-critical="<?php echo esc_attr( $settings['hud_status_critical'] ); ?>"
+		>
 			<div class="kami-k1-sticky-container">
 				<div id="kami-k1-canvas-layer" class="kami-k1-canvas-layer">
 					<canvas id="kami-k1-canvas"></canvas>
@@ -506,7 +867,7 @@ class Elementor_Kami_K1_Scrollytelling_Widget extends \Elementor\Widget_Base {
 							<div class="kami-k1-hud-diagnostics">
 								<div class="kami-k1-diag-group">
 									<p class="kami-k1-diag-label"><?php echo esc_html( $settings['hud_diag_1_label'] ); ?></p>
-									<p class="kami-k1-diag-val" style="color:var(--kami-accent);">STATE_ACTUATE: ON</p>
+									<p class="kami-k1-diag-val" style="color:var(--kami-accent);"><?php echo esc_html( $settings['hud_diag_1_value'] ); ?></p>
 								</div>
 								<div class="kami-k1-diag-group">
 									<p class="kami-k1-diag-label"><?php echo esc_html( $settings['hud_diag_2_label'] ); ?></p>
@@ -514,11 +875,11 @@ class Elementor_Kami_K1_Scrollytelling_Widget extends \Elementor\Widget_Base {
 								</div>
 								<div class="kami-k1-diag-group">
 									<p class="kami-k1-diag-label"><?php echo esc_html( $settings['hud_diag_3_label'] ); ?></p>
-									<p class="kami-k1-diag-val">0.98 G</p>
+									<p class="kami-k1-diag-val"><?php echo esc_html( $settings['hud_diag_3_value'] ); ?></p>
 								</div>
 								<div class="kami-k1-diag-group">
 									<p class="kami-k1-diag-label"><?php echo esc_html( $settings['hud_diag_4_label'] ); ?></p>
-									<p class="kami-k1-diag-val">3.72V // LI-ION</p>
+									<p class="kami-k1-diag-val"><?php echo esc_html( $settings['hud_diag_4_value'] ); ?></p>
 								</div>
 							</div>
 						</div>
@@ -526,12 +887,12 @@ class Elementor_Kami_K1_Scrollytelling_Widget extends \Elementor\Widget_Base {
 						<!-- Bottom status bar -->
 						<div class="kami-k1-hud-bottom">
 							<div class="kami-k1-hud-bottom-left">
-								<p style="margin:0;">FRAME_INDEX: <span id="kami-hud-frame-num">000</span> / 191</p>
-								<p style="margin:0;">TELEMETRY: <span id="kami-hud-telemetry-percent">0%</span></p>
+								<p style="margin:0;"><?php echo esc_html( $settings['hud_frame_index_label'] ); ?> <span id="kami-hud-frame-num">000</span> / 191</p>
+								<p style="margin:0;"><?php echo esc_html( $settings['hud_telemetry_label'] ); ?> <span id="kami-hud-telemetry-percent">0%</span></p>
 							</div>
 							<div class="kami-k1-hud-bottom-right">
-								<p style="margin:0;">STATUS: <span id="kami-hud-status-state" style="font-weight:bold;color:#737373;">SYS_STABLE / ASSEMBLED</span></p>
-								<p style="margin:0;">REFRESH_RATE: <span style="font-weight:bold;color:#10b981;">60.0 FPS</span></p>
+								<p style="margin:0;"><?php echo esc_html( $settings['hud_status_label'] ); ?> <span id="kami-hud-status-state" style="font-weight:bold;color:#737373;"><?php echo esc_html( $settings['hud_status_stable'] ); ?></span></p>
+								<p style="margin:0;"><?php echo esc_html( $settings['hud_refresh_rate_label'] ); ?> <span style="font-weight:bold;color:#10b981;"><?php echo esc_html( $settings['hud_refresh_rate_value'] ); ?></span></p>
 							</div>
 						</div>
 					</div>

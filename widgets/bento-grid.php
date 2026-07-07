@@ -414,6 +414,113 @@ class Elementor_Kami_K1_Bento_Grid_Widget extends \Elementor\Widget_Base {
 		);
 
 		$this->end_controls_section();
+
+		// Add section for Card style under Style tab
+		$this->start_controls_section(
+			'card_style_section',
+			[
+				'label' => esc_html__( 'Card Style Settings', 'kami-k1-elementor-addon' ),
+				'tab' => \Elementor\Controls_Manager::TAB_STYLE,
+			]
+		);
+
+		$this->add_responsive_control(
+			'card_border_radius',
+			[
+				'label' => esc_html__( 'Card Border Radius', 'kami-k1-elementor-addon' ),
+				'type' => \Elementor\Controls_Manager::SLIDER,
+				'size_units' => [ 'px', '%', 'em', 'rem', 'custom' ],
+				'range' => [
+					'px' => [
+						'min' => 0,
+						'max' => 100,
+						'step' => 1,
+					],
+					'%' => [
+						'min' => 0,
+						'max' => 50,
+					],
+				],
+				'default' => [
+					'unit' => 'px',
+					'size' => 8,
+				],
+				'selectors' => [
+					'{{WRAPPER}} .kami-k1-bento-card' => 'border-radius: {{SIZE}}{{UNIT}};',
+				],
+			]
+		);
+
+		$this->add_responsive_control(
+			'icon_border_radius',
+			[
+				'label' => esc_html__( 'Icon Container Border Radius', 'kami-k1-elementor-addon' ),
+				'type' => \Elementor\Controls_Manager::SLIDER,
+				'size_units' => [ 'px', '%', 'em', 'rem', 'custom' ],
+				'range' => [
+					'px' => [
+						'min' => 0,
+						'max' => 100,
+						'step' => 1,
+					],
+				],
+				'default' => [
+					'unit' => 'px',
+					'size' => 6,
+				],
+				'selectors' => [
+					'{{WRAPPER}} .kami-k1-icon-container' => 'border-radius: {{SIZE}}{{UNIT}};',
+				],
+			]
+		);
+
+		$this->add_responsive_control(
+			'oled_border_radius',
+			[
+				'label' => esc_html__( 'OLED Simulated Screen Border Radius', 'kami-k1-elementor-addon' ),
+				'type' => \Elementor\Controls_Manager::SLIDER,
+				'size_units' => [ 'px', '%', 'em', 'rem', 'custom' ],
+				'range' => [
+					'px' => [
+						'min' => 0,
+						'max' => 100,
+						'step' => 1,
+					],
+				],
+				'default' => [
+					'unit' => 'px',
+					'size' => 4,
+				],
+				'selectors' => [
+					'{{WRAPPER}} .kami-k1-oled-sim' => 'border-radius: {{SIZE}}{{UNIT}};',
+				],
+			]
+		);
+
+		$this->add_responsive_control(
+			'gasket_pill_border_radius',
+			[
+				'label' => esc_html__( 'Gasket Pill Border Radius', 'kami-k1-elementor-addon' ),
+				'type' => \Elementor\Controls_Manager::SLIDER,
+				'size_units' => [ 'px', '%', 'em', 'rem', 'custom' ],
+				'range' => [
+					'px' => [
+						'min' => 0,
+						'max' => 100,
+						'step' => 1,
+					],
+				],
+				'default' => [
+					'unit' => 'px',
+					'size' => 4,
+				],
+				'selectors' => [
+					'{{WRAPPER}} .kami-k1-gasket-pill' => 'border-radius: {{SIZE}}{{UNIT}};',
+				],
+			]
+		);
+
+		$this->end_controls_section();
 	}
 
 	protected function render() {

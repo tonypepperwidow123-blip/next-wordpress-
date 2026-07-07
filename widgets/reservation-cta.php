@@ -220,12 +220,287 @@ class Elementor_Kami_K1_Reservation_CTA_Widget extends \Elementor\Widget_Base {
 		);
 
 		$this->end_controls_section();
+
+		// Content Section for messages and terminal logging
+		$this->start_controls_section(
+			'messages_section',
+			[
+				'label' => esc_html__( 'Logging & Success Messages', 'kami-k1-elementor-addon' ),
+				'tab' => \Elementor\Controls_Manager::TAB_CONTENT,
+			]
+		);
+
+		$this->add_control(
+			'transmitting_label',
+			[
+				'label' => esc_html__( 'Transmitting Label', 'kami-k1-elementor-addon' ),
+				'type' => \Elementor\Controls_Manager::TEXT,
+				'default' => esc_html__( 'TRANSMITTING REQUEST DATA...', 'kami-k1-elementor-addon' ),
+			]
+		);
+
+		$this->add_control(
+			'success_msg_1',
+			[
+				'label' => esc_html__( 'Success Message Part 1 (Prefix)', 'kami-k1-elementor-addon' ),
+				'type' => \Elementor\Controls_Manager::TEXT,
+				'default' => esc_html__( 'Thank you, ', 'kami-k1-elementor-addon' ),
+			]
+		);
+
+		$this->add_control(
+			'success_msg_2',
+			[
+				'label' => esc_html__( 'Success Message Part 2 (Before Edition)', 'kami-k1-elementor-addon' ),
+				'type' => \Elementor\Controls_Manager::TEXT,
+				'default' => esc_html__( '. Your reservation request for Kami K1 (', 'kami-k1-elementor-addon' ),
+			]
+		);
+
+		$this->add_control(
+			'success_msg_3',
+			[
+				'label' => esc_html__( 'Success Message Part 3 (Before Switches)', 'kami-k1-elementor-addon' ),
+				'type' => \Elementor\Controls_Manager::TEXT,
+				'default' => esc_html__( ' Edition / ', 'kami-k1-elementor-addon' ),
+			]
+		);
+
+		$this->add_control(
+			'success_msg_4',
+			[
+				'label' => esc_html__( 'Success Message Part 4 (Before Email)', 'kami-k1-elementor-addon' ),
+				'type' => \Elementor\Controls_Manager::TEXT,
+				'default' => esc_html__( ' switches) is secured. An encrypted receipt has been sent to ', 'kami-k1-elementor-addon' ),
+			]
+		);
+
+		$this->add_control(
+			'success_msg_5',
+			[
+				'label' => esc_html__( 'Success Message Part 5 (Suffix)', 'kami-k1-elementor-addon' ),
+				'type' => \Elementor\Controls_Manager::TEXT,
+				'default' => esc_html__( '.', 'kami-k1-elementor-addon' ),
+			]
+		);
+
+		$this->add_control(
+			'terminal_step_1',
+			[
+				'label' => esc_html__( 'Terminal Log Step 1', 'kami-k1-elementor-addon' ),
+				'type' => \Elementor\Controls_Manager::TEXT,
+				'default' => esc_html__( 'PINGING SECURE STORAGE RELAY...', 'kami-k1-elementor-addon' ),
+			]
+		);
+
+		$this->add_control(
+			'terminal_step_2',
+			[
+				'label' => esc_html__( 'Terminal Log Step 2', 'kami-k1-elementor-addon' ),
+				'type' => \Elementor\Controls_Manager::TEXT,
+				'default' => esc_html__( 'HANDSHAKE ACCEPTED // RESOLVING KAMI_K1_RESERVE...', 'kami-k1-elementor-addon' ),
+			]
+		);
+
+		$this->add_control(
+			'terminal_step_3',
+			[
+				'label' => esc_html__( 'Terminal Log Step 3', 'kami-k1-elementor-addon' ),
+				'type' => \Elementor\Controls_Manager::TEXT,
+				'default' => esc_html__( 'TRANSMITTING USER DATA NODE...', 'kami-k1-elementor-addon' ),
+			]
+		);
+
+		$this->add_control(
+			'terminal_step_4',
+			[
+				'label' => esc_html__( 'Terminal Log Step 4 (Prefix)', 'kami-k1-elementor-addon' ),
+				'type' => \Elementor\Controls_Manager::TEXT,
+				'default' => esc_html__( 'ALLOCATING SERIAL: KM-K1-OLED-', 'kami-k1-elementor-addon' ),
+			]
+		);
+
+		$this->add_control(
+			'terminal_step_5',
+			[
+				'label' => esc_html__( 'Terminal Log Step 5', 'kami-k1-elementor-addon' ),
+				'type' => \Elementor\Controls_Manager::TEXT,
+				'default' => esc_html__( 'COMMIT TRANSACTION OK // RESERVATION SECURED.', 'kami-k1-elementor-addon' ),
+			]
+		);
+
+		$this->end_controls_section();
+
+		// Style Section for border-radius customization
+		$this->start_controls_section(
+			'style_section',
+			[
+				'label' => esc_html__( 'Style Settings', 'kami-k1-elementor-addon' ),
+				'tab' => \Elementor\Controls_Manager::TAB_STYLE,
+			]
+		);
+
+		$this->add_responsive_control(
+			'form_card_border_radius',
+			[
+				'label' => esc_html__( 'Form Card Border Radius', 'kami-k1-elementor-addon' ),
+				'type' => \Elementor\Controls_Manager::SLIDER,
+				'size_units' => [ 'px', '%', 'em', 'rem', 'custom' ],
+				'range' => [
+					'px' => [
+						'min' => 0,
+						'max' => 100,
+						'step' => 1,
+					],
+				],
+				'default' => [
+					'unit' => 'px',
+					'size' => 8,
+				],
+				'selectors' => [
+					'{{WRAPPER}} .kami-k1-form-card' => 'border-radius: {{SIZE}}{{UNIT}};',
+				],
+			]
+		);
+
+		$this->add_responsive_control(
+			'choice_btn_border_radius',
+			[
+				'label' => esc_html__( 'Choice Buttons Border Radius', 'kami-k1-elementor-addon' ),
+				'type' => \Elementor\Controls_Manager::SLIDER,
+				'size_units' => [ 'px', '%', 'em', 'rem', 'custom' ],
+				'range' => [
+					'px' => [
+						'min' => 0,
+						'max' => 100,
+						'step' => 1,
+					],
+				],
+				'default' => [
+					'unit' => 'px',
+					'size' => 4,
+				],
+				'selectors' => [
+					'{{WRAPPER}} .kami-k1-choice-btn' => 'border-radius: {{SIZE}}{{UNIT}};',
+				],
+			]
+		);
+
+		$this->add_responsive_control(
+			'input_border_radius',
+			[
+				'label' => esc_html__( 'Input Fields Border Radius', 'kami-k1-elementor-addon' ),
+				'type' => \Elementor\Controls_Manager::SLIDER,
+				'size_units' => [ 'px', '%', 'em', 'rem', 'custom' ],
+				'range' => [
+					'px' => [
+						'min' => 0,
+						'max' => 100,
+						'step' => 1,
+					],
+				],
+				'default' => [
+					'unit' => 'px',
+					'size' => 4,
+				],
+				'selectors' => [
+					'{{WRAPPER}} .kami-k1-text-inputs input' => 'border-radius: {{SIZE}}{{UNIT}};',
+				],
+			]
+		);
+
+		$this->add_responsive_control(
+			'submit_btn_border_radius',
+			[
+				'label' => esc_html__( 'Submit Button Border Radius', 'kami-k1-elementor-addon' ),
+				'type' => \Elementor\Controls_Manager::SLIDER,
+				'size_units' => [ 'px', '%', 'em', 'rem', 'custom' ],
+				'range' => [
+					'px' => [
+						'min' => 0,
+						'max' => 100,
+						'step' => 1,
+					],
+				],
+				'default' => [
+					'unit' => 'px',
+					'size' => 4,
+				],
+				'selectors' => [
+					'{{WRAPPER}} .kami-k1-submit-btn' => 'border-radius: {{SIZE}}{{UNIT}};',
+				],
+			]
+		);
+
+		$this->add_responsive_control(
+			'success_circle_border_radius',
+			[
+				'label' => esc_html__( 'Success Circle Border Radius', 'kami-k1-elementor-addon' ),
+				'type' => \Elementor\Controls_Manager::SLIDER,
+				'size_units' => [ 'px', '%', 'em', 'rem', 'custom' ],
+				'range' => [
+					'px' => [
+						'min' => 0,
+						'max' => 100,
+						'step' => 1,
+					],
+					'%' => [
+						'min' => 0,
+						'max' => 50,
+					],
+				],
+				'default' => [
+					'unit' => '%',
+					'size' => 50,
+				],
+				'selectors' => [
+					'{{WRAPPER}} .kami-k1-success-circle' => 'border-radius: {{SIZE}}{{UNIT}};',
+				],
+			]
+		);
+
+		$this->add_responsive_control(
+			'success_reset_border_radius',
+			[
+				'label' => esc_html__( 'Success Reset Button Border Radius', 'kami-k1-elementor-addon' ),
+				'type' => \Elementor\Controls_Manager::SLIDER,
+				'size_units' => [ 'px', '%', 'em', 'rem', 'custom' ],
+				'range' => [
+					'px' => [
+						'min' => 0,
+						'max' => 100,
+						'step' => 1,
+					],
+				],
+				'default' => [
+					'unit' => 'px',
+					'size' => 4,
+				],
+				'selectors' => [
+					'{{WRAPPER}} .kami-k1-success-reset' => 'border-radius: {{SIZE}}{{UNIT}};',
+				],
+			]
+		);
+
+		$this->end_controls_section();
 	}
 
 	protected function render() {
 		$settings = $this->get_settings_for_display();
 		?>
-		<div class="kami-k1-addon-wrapper">
+		<div class="kami-k1-addon-wrapper"
+			data-transmitting-text="<?php echo esc_attr( $settings['transmitting_label'] ); ?>"
+			data-success-msg-1="<?php echo esc_attr( $settings['success_msg_1'] ); ?>"
+			data-success-msg-2="<?php echo esc_attr( $settings['success_msg_2'] ); ?>"
+			data-success-msg-3="<?php echo esc_attr( $settings['success_msg_3'] ); ?>"
+			data-success-msg-4="<?php echo esc_attr( $settings['success_msg_4'] ); ?>"
+			data-success-msg-5="<?php echo esc_attr( $settings['success_msg_5'] ); ?>"
+			data-terminal-step-1="<?php echo esc_attr( $settings['terminal_step_1'] ); ?>"
+			data-terminal-step-2="<?php echo esc_attr( $settings['terminal_step_2'] ); ?>"
+			data-terminal-step-3="<?php echo esc_attr( $settings['terminal_step_3'] ); ?>"
+			data-terminal-step-4="<?php echo esc_attr( $settings['terminal_step_4'] ); ?>"
+			data-terminal-step-5="<?php echo esc_attr( $settings['terminal_step_5'] ); ?>"
+		>
 			<section id="order" class="kami-k1-cta-section">
 				<!-- Fine Grid Background -->
 				<div class="hud-grid-fine"></div>
@@ -341,7 +616,7 @@ class Elementor_Kami_K1_Reservation_CTA_Widget extends \Elementor\Widget_Base {
 								<div id="kami-k1-terminal-step" class="kami-k1-terminal-state hidden font-mono">
 									<div class="kami-k1-terminal-header">
 										<div class="kami-k1-terminal-spinner"></div>
-										<span>TRANSMITTING REQUEST DATA...</span>
+										<span><?php echo esc_html( $settings['transmitting_label'] ); ?></span>
 									</div>
 									<div id="kami-k1-terminal-lines" class="kami-k1-terminal-box">
 										<!-- Injected logs via Javascript -->
@@ -357,7 +632,7 @@ class Elementor_Kami_K1_Reservation_CTA_Widget extends \Elementor\Widget_Base {
 									</div>
 									<h3><?php echo esc_html( $settings['success_title_first'] ); ?> <span><?php echo esc_html( $settings['success_title_second'] ); ?></span></h3>
 									<p id="kami-k1-success-details">
-										Thank you, <span id="kami-k1-success-name" class="highlight"></span>. Your reservation request for Kami K1 is secured.
+										<?php echo esc_html( $settings['success_msg_1'] ); ?><span id="kami-k1-success-name" class="highlight"></span><?php echo esc_html( $settings['success_msg_2'] ); ?>
 									</p>
 									<button id="kami-k1-success-reset" class="kami-k1-success-reset font-mono">
 										<?php echo esc_html( $settings['success_reset_label'] ); ?>
