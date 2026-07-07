@@ -3,6 +3,29 @@
  * Scoped under .kami-k1-addon-wrapper to prevent conflicts with WordPress themes.
  */
 
+/* ==========================================================================
+   GLOBAL: Suppress WordPress theme header when Kami K1 Navbar widget is present
+   ========================================================================== */
+body:has(.kami-k1-navbar) .site-header,
+body:has(.kami-k1-navbar) #masthead,
+body:has(.kami-k1-navbar) #site-header,
+body:has(.kami-k1-navbar) header.entry-header,
+body:has(.kami-k1-navbar) .wp-block-template-part[class*="header"],
+body:has(.kami-k1-navbar) .elementor-location-header {
+  display: none !important;
+}
+
+/* ==========================================================================
+   GLOBAL: Utility Classes
+   ========================================================================== */
+
+/* Critical: hidden utility - hides terminal/success states by default */
+.kami-k1-addon-wrapper .hidden,
+.kami-k1-terminal-state.hidden,
+.kami-k1-success-state.hidden {
+  display: none !important;
+}
+
 :root {
   --kami-background: #000000;
   --kami-foreground: #ffffff;
@@ -1570,12 +1593,17 @@
   height: 16px;
 }
 
-/* Terminal logs state */
+/* Terminal logs state - hidden by default, shown by JS */
 .kami-k1-terminal-state {
-  display: flex;
+  display: none;
   flex-direction: column;
   justify-content: center;
   min-height: 320px;
+}
+
+/* JS removes .hidden class to show these states */
+.kami-k1-terminal-state:not(.hidden) {
+  display: flex;
 }
 
 .kami-k1-terminal-header {
@@ -1631,14 +1659,19 @@
   color: #fff;
 }
 
-/* Success State styles */
+/* Success State styles - hidden by default, shown by JS */
 .kami-k1-success-state {
-  display: flex;
+  display: none;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;
   padding: 3rem 0;
+}
+
+/* JS removes .hidden class to show this state */
+.kami-k1-success-state:not(.hidden) {
+  display: flex;
 }
 
 .kami-k1-success-circle {
@@ -1710,4 +1743,23 @@
 @keyframes spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
+}
+
+/* Fix max-width typo in CSS (max-w -> max-width) */
+.kami-k1-success-state p {
+  max-width: 360px;
+}
+
+.kami-k1-bento-container {
+  max-width: 1200px;
+}
+
+.kami-k1-navbar-container {
+  max-width: 1200px;
+}
+
+/* Font mono utility class used by JS injection */
+.kami-k1-addon-wrapper .font-mono,
+.font-mono {
+  font-family: 'JetBrains Mono', 'Courier New', Courier, monospace !important;
 }
