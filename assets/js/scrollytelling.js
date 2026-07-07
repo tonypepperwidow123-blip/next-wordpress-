@@ -1,332 +1,258 @@
 /**
- * Kami K1 Elementor Addon - Production-Ready Scrollytelling Engine
+ * Kami K1 Elementor Addon - Scrollytelling Engine
+ * Mirrors the original Next.js ScrollCanvas + page.tsx logic exactly:
+ *  - Canvas is position:fixed (covers viewport always)
+ *  - Scroll progress is derived from the #scrollytelling spacer div
+ *  - 192 frames scrub as user scrolls through the 400vh spacer
  */
 
 document.addEventListener("DOMContentLoaded", () => {
-  // Support multiple instances by looping through all wrappers
-  const wrappers = document.querySelectorAll(".kami-k1-addon-wrapper");
-  
-  wrappers.forEach((wrapper) => {
-    const container = wrapper.querySelector(".kami-k1-scrollytelling-container");
-    if (!container) return;
 
-    const canvas = wrapper.querySelector("#kami-k1-canvas");
-    const preloader = wrapper.querySelector("#kami-k1-preloader");
-    const percentText = wrapper.querySelector("#kami-k1-preloader-percent");
-    const progressBar = wrapper.querySelector("#kami-k1-preloader-bar");
-    const phraseText = wrapper.querySelector("#kami-k1-preloader-phrase");
-    const decodedText = wrapper.querySelector("#kami-k1-preloader-decoded");
+  const canvas       = document.getElementById("kami-k1-canvas");
+  const canvasLayer  = document.getElementById("kami-k1-canvas-layer");
+  const preloader    = document.getElementById("kami-k1-preloader");
+  const percentText  = document.getElementById("kami-k1-preloader-percent");
+  const progressBar  = document.getElementById("kami-k1-preloader-bar");
+  const phraseEl     = document.getElementById("kami-k1-preloader-phrase");
+  const decodedEl    = document.getElementById("kami-k1-preloader-decoded");
+  const scrollSpacer = document.getElementById("scrollytelling");
 
-    // HUD elements scoped to this widget instance
-    const hudFrameNum = wrapper.querySelector("#kami-hud-frame-num");
-    const hudTelemetryPercent = wrapper.querySelector("#kami-hud-telemetry-percent");
-    const hudTelemetryAngle = wrapper.querySelector("#kami-hud-telemetry-angle");
-    const hudStatusState = wrapper.querySelector("#kami-hud-status-state");
-    const hudNodes = wrapper.querySelectorAll(".kami-k1-hud-node");
+  // HUD elements
+  const hudFrameNum        = document.getElementById("kami-hud-frame-num");
+  const hudTelemetryPct    = document.getElementById("kami-hud-telemetry-percent");
+  const hudTelemetryAngle  = document.getElementById("kami-hud-telemetry-angle");
+  const hudStatusState     = document.getElementById("kami-hud-status-state");
+  const hudNodes           = document.querySelectorAll(".kami-k1-hud-node");
+  const narrativeBoxes     = document.querySelectorAll(".kami-k1-narrative-box");
 
-    // Narrative overlays scoped to this instance
-    const narrativeBoxes = wrapper.querySelectorAll(".kami-k1-narrative-box");
+  if (!canvas || !scrollSpacer) {
+    console.warn("Kami K1: Required DOM elements not found.");
+    return;
+  }
 
-    // Configuration
-    const totalFrames = 192;
-    const images = [];
-    let loadedCount = 0;
-    let isReady = false;
-    let lastIndex = 0;
-    let animationFrameId = null;
+  // ─── Config ───────────────────────────────────────────────────────────────
+  const TOTAL_FRAMES = 192;
+  const framesBaseUrl = (typeof KamiK1Addon !== "undefined")
+    ? KamiK1Addon.framesUrl
+    : "/wp-content/plugins/next-wordpress-/assets/frames/";
 
-    const TECH_PHRASES = [
-      "DECODING HARDWARE GEOMETRY...",
-      "BUFFERING HIGH-FIDELITY ASSETS...",
-      "ESTABLISHING WEBGL FRAMEBUFFER...",
-      "SYNCRONIZING SCROLL-TRIGGERS...",
-      "OPTIMIZING COMPONENT EXPLOSION MAP...",
-      "CALIBRATING TACTILE ACTUATION CURVES...",
-      "STABILIZING 2.4GHZ WIRELESS SIMULATOR...",
-      "COMPASS ALIGNMENT COMPLETED...",
-      "ALL SYSTEMS OPERATIONAL..."
-    ];
+  const TECH_PHRASES = [
+    "DECODING HARDWARE GEOMETRY...",
+    "BUFFERING HIGH-FIDELITY ASSETS...",
+    "ESTABLISHING CANVAS FRAMEBUFFER...",
+    "SYNCHRONIZING SCROLL-TRIGGERS...",
+    "OPTIMIZING COMPONENT EXPLOSION MAP...",
+    "CALIBRATING TACTILE ACTUATION CURVES...",
+    "STABILIZING 2.4GHZ WIRELESS SIMULATOR...",
+    "COMPASS ALIGNMENT COMPLETED...",
+    "ALL SYSTEMS OPERATIONAL..."
+  ];
 
-    // Detect if we are inside the Elementor editor
-    const isEditorMode = document.body.classList.contains("elementor-editor-active") || 
-                         (typeof window.elementorFrontend !== "undefined" && window.elementorFrontend.isEditMode());
+  // ─── State ────────────────────────────────────────────────────────────────
+  const images      = new Array(TOTAL_FRAMES);
+  let loadedCount   = 0;
+  let isReady       = false;
+  let lastIndex     = 0;
+  let rafId         = null;
+  let resizeTimer   = null;
 
-    // Get localized path from localization object (fallback to local if not localized)
-    const framesBaseUrl = typeof KamiK1Addon !== "undefined" ? KamiK1Addon.framesUrl : "/wp-content/plugins/kami-k1-elementor-addon/assets/frames/";
+  // ─── Phrase cycling ───────────────────────────────────────────────────────
+  let phraseIdx = 0;
+  const phraseInterval = setInterval(() => {
+    if (isReady) { clearInterval(phraseInterval); return; }
+    phraseIdx = (phraseIdx + 1) % (TECH_PHRASES.length - 1);
+    if (phraseEl) phraseEl.textContent = TECH_PHRASES[phraseIdx];
+  }, 1200);
 
-    // Preloader phrases rotation
-    let phraseIndex = 0;
-    const phraseInterval = setInterval(() => {
-      if (isReady) {
-        clearInterval(phraseInterval);
-        return;
+  // ─── Safety timeout (slow networks) ──────────────────────────────────────
+  const safetyTimer = setTimeout(() => {
+    if (!isReady) { console.warn("Kami K1: safety timeout — forcing init."); onPreloadComplete(); }
+  }, 6000);
+
+  // ─── Canvas: object-fit cover draw ───────────────────────────────────────
+  function drawFrame(index) {
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    // Find nearest loaded frame
+    let img = images[index];
+    if (!img || !img.complete || !img.naturalWidth) {
+      for (let i = index; i >= 0; i--) {
+        if (images[i] && images[i].complete && images[i].naturalWidth) { img = images[i]; break; }
       }
-      phraseIndex = (phraseIndex + 1) % (TECH_PHRASES.length - 1);
-      if (phraseText) {
-        phraseText.textContent = TECH_PHRASES[phraseIndex];
+    }
+    if (!img || !img.naturalWidth) return;
+
+    const cW = canvas.width,  cH = canvas.height;
+    const iW = img.naturalWidth, iH = img.naturalHeight;
+
+    ctx.clearRect(0, 0, cW, cH);
+
+    const cRatio = cW / cH;
+    const iRatio = iW / iH;
+    let dW = cW, dH = cH, oX = 0, oY = 0;
+
+    if (cRatio > iRatio) { dH = cW / iRatio; oY = (cH - dH) / 2; }
+    else                  { dW = cH * iRatio; oX = (cW - dW) / 2; }
+
+    ctx.drawImage(img, oX, oY, dW, dH);
+    lastIndex = index;
+  }
+
+  // ─── Resize (DPR-aware) ───────────────────────────────────────────────────
+  function handleResize() {
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    canvas.width  = window.innerWidth  * dpr;
+    canvas.height = window.innerHeight * dpr;
+    drawFrame(lastIndex);
+  }
+
+  window.addEventListener("resize", () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(handleResize, 100);
+  });
+
+  // ─── Preload images ───────────────────────────────────────────────────────
+  function preload() {
+    for (let i = 0; i < TOTAL_FRAMES; i++) {
+      const img = new Image();
+      img.src = `${framesBaseUrl}frame_${String(i).padStart(3, "0")}.jpg`;
+      img.onload  = () => onOneLoaded();
+      img.onerror = () => onOneLoaded();
+      images[i] = img;
+    }
+  }
+
+  function onOneLoaded() {
+    loadedCount++;
+    const pct = Math.round((loadedCount / TOTAL_FRAMES) * 100);
+
+    // Update preloader UI
+    if (percentText) percentText.childNodes[0].nodeValue = `${pct}%`;
+    if (progressBar) progressBar.style.width = `${pct}%`;
+    if (decodedEl)   decodedEl.textContent = `${Math.round(pct * 1.92)} / 192 FRAMES`;
+
+    if (loadedCount === TOTAL_FRAMES) onPreloadComplete();
+  }
+
+  function onPreloadComplete() {
+    if (isReady) return;
+    isReady = true;
+    clearTimeout(safetyTimer);
+    clearInterval(phraseInterval);
+    if (phraseEl) phraseEl.textContent = TECH_PHRASES[TECH_PHRASES.length - 1];
+
+    setTimeout(() => {
+      // Fade out preloader
+      if (preloader) preloader.classList.add("fade-out");
+
+      // Show canvas layer
+      if (canvasLayer) canvasLayer.classList.add("ready");
+
+      // Restore scroll
+      document.body.style.overflow = "";
+
+      // Draw first frame
+      handleResize();
+      drawFrame(0);
+
+      // Update initial scroll state
+      onScroll();
+    }, 800);
+  }
+
+  // ─── Scroll handler ───────────────────────────────────────────────────────
+  function onScroll() {
+    if (!isReady) return;
+
+    // Get scroll progress relative to the 400vh spacer div
+    const rect       = scrollSpacer.getBoundingClientRect();
+    const totalScroll = scrollSpacer.offsetHeight - window.innerHeight;
+    const scrolled    = -rect.top; // pixels scrolled into spacer
+    let progress      = Math.min(Math.max(scrolled / totalScroll, 0), 1);
+
+    // Hide canvas layer when spacer has fully scrolled past
+    if (canvasLayer) {
+      if (progress >= 1) {
+        canvasLayer.style.display = "none";
+      } else if (progress >= 0) {
+        canvasLayer.style.display = "";
       }
-    }, 1200);
-
-    // Safety timeout: Auto-dismiss loader after 6 seconds to prevent locking site on slow connections
-    const safetyTimeout = setTimeout(() => {
-      if (!isReady) {
-        console.warn("Kami K1: Preload safety timeout reached. Forcing site activation.");
-        onPreloadComplete();
-      }
-    }, 6000);
-
-    // Preload Images
-    const preloadImages = () => {
-      // If in Editor Mode, we can load just the first and last frames to speed up editing
-      const framesToLoad = isEditorMode ? [0, 48, 96, 144, 191] : Array.from({length: totalFrames}, (_, i) => i);
-      const totalToLoad = framesToLoad.length;
-
-      framesToLoad.forEach((i) => {
-        const img = new Image();
-        const frameIndexStr = String(i).padStart(3, "0");
-        img.src = `${framesBaseUrl}frame_${frameIndexStr}.jpg`;
-        img.onload = () => handleImageLoad(totalToLoad);
-        img.onerror = () => handleImageError(totalToLoad);
-        images[i] = img; // Keep absolute positioning
-      });
-    };
-
-    const handleImageLoad = (totalToLoad) => {
-      loadedCount++;
-      const progressPercent = Math.round((loadedCount / totalToLoad) * 100);
-      
-      // Update preloader DOM
-      if (percentText) percentText.childNodes[0].nodeValue = `${progressPercent}%`;
-      if (progressBar) progressBar.style.width = `${progressPercent}%`;
-      if (decodedText) decodedText.textContent = `${Math.round(progressPercent * 1.92)} / 192 FRAMES`;
-
-      if (loadedCount === totalToLoad) {
-        onPreloadComplete();
-      }
-    };
-
-    const handleImageError = (totalToLoad) => {
-      loadedCount++;
-      if (loadedCount === totalToLoad) {
-        onPreloadComplete();
-      }
-    };
-
-    const onPreloadComplete = () => {
-      if (isReady) return;
-      isReady = true;
-      clearTimeout(safetyTimeout);
-      clearInterval(phraseInterval);
-      if (phraseText) phraseText.textContent = TECH_PHRASES[TECH_PHRASES.length - 1];
-
-      setTimeout(() => {
-        if (preloader) {
-          preloader.classList.add("fade-out");
-        }
-        // Restore scrolling only if we locked it and not in editor
-        if (!isEditorMode) {
-          document.body.style.overflow = "";
-        }
-        handleResize();
-        drawFrame(0);
-        updateScrollStates();
-      }, 800);
-    };
-
-    // Draw Frame to Canvas (Object-fit cover behavior in 2D context)
-    const drawFrame = (index) => {
-      if (!canvas) return;
-      const ctx = canvas.getContext("2d");
-      if (!ctx) return;
-
-      // Find closest loaded frame if the target index is missing (e.g. editor mode optimization)
-      let img = images[index];
-      if (!img || !img.complete) {
-        // Search downwards for nearest loaded frame
-        for (let i = index; i >= 0; i--) {
-          if (images[i] && images[i].complete) {
-            img = images[i];
-            break;
-          }
-        }
-      }
-      
-      if (!img || !img.complete) return;
-
-      const canvasW = canvas.width;
-      const canvasH = canvas.height;
-      const imgW = img.width;
-      const imgH = img.height;
-
-      ctx.clearRect(0, 0, canvasW, canvasH);
-
-      const canvasRatio = canvasW / canvasH;
-      const imgRatio = imgW / imgH;
-
-      let drawW = canvasW;
-      let drawH = canvasH;
-      let offsetX = 0;
-      let offsetY = 0;
-
-      if (canvasRatio > imgRatio) {
-        drawH = canvasW / imgRatio;
-        offsetY = (canvasH - drawH) / 2;
-      } else {
-        drawW = canvasH * imgRatio;
-        offsetX = (canvasW - drawW) / 2;
-      }
-
-      ctx.drawImage(img, offsetX, offsetY, drawW, drawH);
-      lastIndex = index;
-    };
-
-    // Resize canvas for device pixel ratio with debouncing
-    let resizeTimeout;
-    const handleResize = () => {
-      if (!canvas) return;
-      
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      canvas.width = window.innerWidth * dpr;
-      canvas.height = window.innerHeight * dpr;
-      
-      drawFrame(lastIndex);
-    };
-
-    const debouncedResize = () => {
-      clearTimeout(resizeTimeout);
-      resizeTimeout = setTimeout(handleResize, 100);
-    };
-
-    // Calculate Scroll Progress and Trigger Actions
-    const updateScrollStates = () => {
-      if (!isReady || !container) return;
-
-      const containerTop = container.offsetTop;
-      const containerHeight = container.offsetHeight;
-      const viewportHeight = window.innerHeight;
-      const scrolledAmt = window.scrollY - containerTop;
-      const maxScroll = containerHeight - viewportHeight;
-
-      // Normalize progress 0.0 -> 1.0
-      let progress = scrolledAmt / maxScroll;
-      progress = Math.min(Math.max(progress, 0), 1);
-
-      // Map scroll [0.0, 0.8] to frame index [0, 191]
-      let frameIndex = 0;
-      if (progress <= 0.8) {
-        frameIndex = Math.round((progress / 0.8) * (totalFrames - 1));
-      } else {
-        frameIndex = totalFrames - 1;
-      }
-      frameIndex = Math.min(Math.max(frameIndex, 0), totalFrames - 1);
-
-      // Request animation frame for canvas draw
-      if (animationFrameId !== null) {
-        cancelAnimationFrame(animationFrameId);
-      }
-      animationFrameId = requestAnimationFrame(() => {
-        drawFrame(frameIndex);
-      });
-
-      // Update HUD values
-      const percent = Math.min(Math.round(progress * 100), 100);
-      const fakeAngle = Math.round(progress * 360);
-
-      if (hudFrameNum) hudFrameNum.textContent = String(frameIndex).padStart(3, "0");
-      if (hudTelemetryPercent) hudTelemetryPercent.textContent = `${percent}%`;
-      if (hudTelemetryAngle) hudTelemetryAngle.textContent = `${fakeAngle}°`;
-
-      if (hudStatusState) {
-        if (progress <= 0.05) {
-          hudStatusState.textContent = "SYS_STABLE / ASSEMBLED";
-          hudStatusState.style.color = "#737373";
-        } else if (progress >= 0.75) {
-          hudStatusState.textContent = "CRIT_EXPLODED / SHUTDOWN";
-          hudStatusState.style.color = "#ef4444";
-        } else {
-          hudStatusState.textContent = "SYS_TRANSITION / ACTIVE";
-          hudStatusState.style.color = "#f97316";
-        }
-      }
-
-      // Determine Active HUD Section (0 to 3)
-      let activeHUD = 0;
-      if (progress < 0.22) {
-        activeHUD = 0;
-      } else if (progress < 0.44) {
-        activeHUD = 1;
-      } else if (progress < 0.66) {
-        activeHUD = 2;
-      } else {
-        activeHUD = 3;
-      }
-
-      // Update HUD Node styling
-      hudNodes.forEach((node, idx) => {
-        if (idx === activeHUD) {
-          node.classList.add("active");
-        } else {
-          node.classList.remove("active");
-        }
-
-        if (idx < activeHUD) {
-          node.classList.add("active-path");
-        } else {
-          node.classList.remove("active-path");
-        }
-      });
-
-      // Handle Narratives fading in/out
-      // Respect prefers-reduced-motion settings
-      const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
-      
-      const numNarratives = narrativeBoxes.length;
-      const segmentWidth = 0.8 / numNarratives;
-      const activeNarrativeIdx = Math.min(Math.floor(progress / segmentWidth), numNarratives - 1);
-
-      narrativeBoxes.forEach((box, idx) => {
-        if (idx === activeNarrativeIdx && progress > 0.01 && progress < 0.95) {
-          if (motionQuery.matches) {
-            box.style.transition = "none";
-            box.style.transform = "none";
-          }
-          box.classList.add("visible");
-        } else {
-          box.classList.remove("visible");
-        }
-      });
-    };
-
-    // Nav HUD Node clicks
-    hudNodes.forEach((node, idx) => {
-      node.addEventListener("click", (e) => {
-        e.preventDefault();
-        const progressMap = [0.0, 0.33, 0.55, 0.88];
-        const p = progressMap[idx];
-        const containerTop = container.offsetTop;
-        const containerHeight = container.offsetHeight;
-        const viewportHeight = window.innerHeight;
-        const targetScrollY = containerTop + p * (containerHeight - viewportHeight);
-
-        window.scrollTo({
-          top: targetScrollY,
-          behavior: "smooth"
-        });
-      });
-    });
-
-    // Init
-    // Only lock scroll when loaded if not in editor mode
-    if (!isEditorMode) {
-      document.body.style.overflow = "hidden";
-    } else {
-      if (preloader) preloader.style.display = "none";
     }
 
-    preloadImages();
+    // Map progress 0→0.8 → frame 0→191 (matches Next.js useTransform([0,0.8],[0,191]))
+    const frameProgress = Math.min(progress / 0.8, 1);
+    const frameIndex    = Math.round(frameProgress * (TOTAL_FRAMES - 1));
 
-    // Listeners
-    window.addEventListener("resize", debouncedResize);
-    window.addEventListener("scroll", updateScrollStates);
+    if (rafId) cancelAnimationFrame(rafId);
+    rafId = requestAnimationFrame(() => drawFrame(frameIndex));
+
+    // ── HUD updates ──
+    const pct        = Math.min(Math.round(progress * 100), 100);
+    const fakeAngle  = Math.round(progress * 360);
+
+    if (hudFrameNum)       hudFrameNum.textContent       = String(frameIndex).padStart(3, "0");
+    if (hudTelemetryPct)   hudTelemetryPct.textContent   = `${pct}%`;
+    if (hudTelemetryAngle) hudTelemetryAngle.textContent = `${fakeAngle}°`;
+
+    if (hudStatusState) {
+      if (progress <= 0.05) {
+        hudStatusState.textContent = "SYS_STABLE / ASSEMBLED";
+        hudStatusState.style.color = "#737373";
+      } else if (progress >= 0.75) {
+        hudStatusState.textContent = "CRIT_EXPLODED / SHUTDOWN";
+        hudStatusState.style.color = "#ef4444";
+      } else {
+        hudStatusState.textContent = "SYS_TRANSITION / ACTIVE";
+        hudStatusState.style.color = "#f97316";
+      }
+    }
+
+    // ── HUD nav dots ──
+    let activeHUD = 0;
+    if (progress >= 0.66) activeHUD = 3;
+    else if (progress >= 0.44) activeHUD = 2;
+    else if (progress >= 0.22) activeHUD = 1;
+
+    hudNodes.forEach((node, idx) => {
+      node.classList.toggle("active",      idx === activeHUD);
+      node.classList.toggle("active-path", idx < activeHUD);
+    });
+
+    // ── Narrative text ──
+    // 9 narratives over 0→0.8 scroll = each is 0.8/9 ≈ 0.0889 wide
+    const SEG = 0.8 / 9;
+    const activeNarrative = Math.min(Math.floor(progress / SEG), narrativeBoxes.length - 1);
+
+    const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    narrativeBoxes.forEach((box, idx) => {
+      const shouldShow = idx === activeNarrative && progress > 0.005 && progress < 0.98;
+      if (shouldShow) {
+        if (prefersReduced) { box.style.transition = "none"; box.style.transform = "none"; }
+        box.classList.add("visible");
+      } else {
+        box.classList.remove("visible");
+      }
+    });
+  }
+
+  window.addEventListener("scroll", onScroll, { passive: true });
+
+  // ─── HUD node click navigation ────────────────────────────────────────────
+  hudNodes.forEach((node, idx) => {
+    node.addEventListener("click", () => {
+      const progMap = [0, 0.33, 0.55, 0.88];
+      const p = progMap[idx] || 0;
+      const spacerTop    = scrollSpacer.offsetTop;
+      const spacerHeight = scrollSpacer.offsetHeight;
+      const viewH        = window.innerHeight;
+      window.scrollTo({ top: spacerTop + p * (spacerHeight - viewH), behavior: "smooth" });
+    });
   });
+
+  // ─── Start ────────────────────────────────────────────────────────────────
+  // Lock scroll during preload
+  document.body.style.overflow = "hidden";
+  preload();
 });

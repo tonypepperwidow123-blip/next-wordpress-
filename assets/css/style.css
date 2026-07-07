@@ -38,7 +38,32 @@ body:has(.kami-k1-navbar) .elementor-location-header {
   --kami-muted: #737373;
 }
 
-/* Base wrapper configurations */
+/* ==========================================================================
+   Elementor container overrides: strip all padding from sections that
+   wrap the scrollytelling widget so it can fill the viewport edge-to-edge
+   ========================================================================== */
+.elementor-widget-kami-k1-scrollytelling,
+.elementor-widget-kami-k1-scrollytelling > .elementor-widget-container {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+body .elementor-section:has(.kami-k1-scrollytelling-container),
+body .elementor-column:has(.kami-k1-scrollytelling-container) {
+  padding: 0 !important;
+  overflow: visible !important;
+}
+
+/* Keep navbar widget container clean too */
+.elementor-widget-kami-k1-navbar > .elementor-widget-container {
+  padding: 0 !important;
+}
+
+/* ==========================================================================
+   Base Wrapper
+   NOTE: NO overflow:hidden here — position:fixed children break inside
+         overflow:hidden parents (CSS stacking context limitation)
+   ========================================================================== */
 .kami-k1-addon-wrapper {
   color: var(--kami-foreground);
   background-color: var(--kami-background);
@@ -47,7 +72,7 @@ body:has(.kami-k1-navbar) .elementor-location-header {
   -moz-osx-font-smoothing: grayscale;
   width: 100%;
   box-sizing: border-box;
-  overflow-x: hidden;
+  /* overflow-x: hidden intentionally removed — it breaks position:fixed children */
 }
 
 .kami-k1-addon-wrapper *, 
@@ -450,39 +475,49 @@ body:has(.kami-k1-navbar) .elementor-location-header {
   box-shadow: 0 0 10px rgba(239,68,68,0.2);
 }
 
-/* Scrollytelling Section Styles */
+/* ==========================================================================
+   Scrollytelling — mirrors the original Next.js implementation exactly:
+   - Canvas layer is position:FIXED (covers viewport at all times)
+   - #scrollytelling div is a 400vh SPACER (no visual content, just height)
+   - JS hides the canvas layer once user scrolls past the spacer
+   ========================================================================== */
+
+/* The 400vh scroll spacer — provides the scroll room for frame scrubbing */
 .kami-k1-scrollytelling-container {
   position: relative;
   height: 400vh;
   width: 100%;
-  background: #000;
+  background: transparent; /* transparent so nothing overlaps page below */
+  z-index: 0;
 }
 
-.kami-k1-sticky-viewport {
-  position: sticky;
-  top: 0;
+/* Fixed canvas layer — always covers the viewport, exactly like Next.js source */
+.kami-k1-canvas-layer {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
   height: 100vh;
-  width: 100%;
-  overflow: hidden;
+  z-index: 5;
+  pointer-events: none;
+  background: #000;
+  /* Hidden until preload completes */
+  opacity: 0;
+  transition: opacity 0.5s ease;
 }
 
-.kami-k1-canvas-wrapper {
+.kami-k1-canvas-layer.ready {
+  opacity: 1;
+}
+
+.kami-k1-canvas-layer canvas {
   position: absolute;
   inset: 0;
   width: 100%;
-  height: 100vh;
-  z-index: 0;
-  pointer-events: none;
-}
-
-.kami-k1-canvas-wrapper canvas {
-  width: 100%;
   height: 100%;
-  object-fit: cover;
   display: block;
 }
 
-/* Vignettes for canvas */
+/* Vignettes inside the fixed canvas layer */
 .kami-k1-vignette-vertical {
   position: absolute;
   inset: 0;
@@ -499,12 +534,12 @@ body:has(.kami-k1-navbar) .elementor-location-header {
   z-index: 1;
 }
 
-/* Floating HUD layout */
+/* HUD and overlays sit above canvas inside the fixed layer */
 .kami-k1-hud-overlay {
   position: absolute;
   inset: 0;
   width: 100%;
-  height: 100vh;
+  height: 100%;
   pointer-events: none;
   z-index: 10;
   display: flex;
@@ -738,12 +773,12 @@ body:has(.kami-k1-navbar) .elementor-location-header {
   color: #a3a3a3;
 }
 
-/* Scrollytelling narrative card overlays */
+/* Narrative overlay sits inside the fixed canvas layer */
 .kami-k1-narrative-overlay {
   position: absolute;
   inset: 0;
   width: 100%;
-  height: 100vh;
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
