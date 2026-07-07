@@ -16,6 +16,24 @@ body:has(.kami-k1-navbar) .elementor-location-header {
 }
 
 /* ==========================================================================
+   GLOBAL: Force black background — prevents white Astra theme from
+   flashing through when the fixed canvas layer fades out at end of scroll
+   ========================================================================== */
+html,
+body {
+  background-color: #000 !important;
+}
+
+/* Astra theme sometimes sets page bg on these containers */
+body .site,
+body .site-content,
+body #page,
+body #content,
+body .wp-site-blocks {
+  background-color: #000 !important;
+}
+
+/* ==========================================================================
    GLOBAL: Utility Classes
    ========================================================================== */
 
@@ -285,6 +303,19 @@ body .elementor-column:has(.kami-k1-scrollytelling-container) {
   padding: 1.5rem 0;
 }
 
+/* ── WordPress Admin Bar offset ──
+   WP admin bar is 32px tall on desktop and 46px on mobile.
+   Without this, the navbar hides BEHIND the admin bar. */
+.admin-bar .kami-k1-navbar {
+  top: 32px;
+}
+
+@media screen and (max-width: 782px) {
+  .admin-bar .kami-k1-navbar {
+    top: 46px;
+  }
+}
+
 .kami-k1-navbar.scrolled {
   background: rgba(0, 0, 0, 0.85);
   backdrop-filter: blur(12px);
@@ -294,7 +325,7 @@ body .elementor-column:has(.kami-k1-scrollytelling-container) {
 }
 
 .kami-k1-navbar-container {
-  max-w: 1200px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 0 1.5rem;
   display: flex;
