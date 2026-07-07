@@ -171,25 +171,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const scrolled    = -rect.top; // pixels scrolled into spacer
     let progress      = Math.min(Math.max(scrolled / totalScroll, 0), 1);
 
-    // Smoothly fade the canvas layer out as user reaches the end of the scroll spacer.
-    // Fade starts at progress 0.92 and completes at 1.0 — prevents the white-flash.
-    // The body background is forced black via CSS so nothing shows through.
-    if (canvasLayer) {
-      if (progress >= 1) {
-        // Fully past the spacer — hide completely so bento/CTA sections are interactive
-        canvasLayer.style.opacity = "0";
-        canvasLayer.style.pointerEvents = "none";
-      } else if (progress > 0.92) {
-        // Fade out over the last 8% of scroll
-        const fadeOut = 1 - ((progress - 0.92) / 0.08);
-        canvasLayer.style.opacity = String(Math.max(fadeOut, 0));
-        canvasLayer.style.pointerEvents = "none";
-      } else {
-        canvasLayer.style.opacity = "1";
-        canvasLayer.style.pointerEvents = "none";
-      }
-    }
-
     // Map progress 0→0.8 → frame 0→191 (matches Next.js useTransform([0,0.8],[0,191]))
     const frameProgress = Math.min(progress / 0.8, 1);
     const frameIndex    = Math.round(frameProgress * (TOTAL_FRAMES - 1));

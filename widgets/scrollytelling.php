@@ -117,177 +117,173 @@ class Elementor_Kami_K1_Scrollytelling_Widget extends \Elementor\Widget_Base {
 		</div>
 
 		<?php /* =========================================================
-		   FIXED CANVAS LAYER — position:fixed like original Next.js source
-		   Covers the full viewport while user scrolls through 400vh spacer
-		   ========================================================= */ ?>
-		<div id="kami-k1-canvas-layer" class="kami-k1-canvas-layer">
-			<canvas id="kami-k1-canvas"></canvas>
-			<div class="kami-k1-vignette-vertical"></div>
-			<div class="kami-k1-vignette-radial"></div>
-
-			<!-- CAD Target Markings -->
-			<div class="kami-k1-cad-corner top-left"></div>
-			<div class="kami-k1-cad-corner top-right"></div>
-			<div class="kami-k1-cad-corner bottom-left"></div>
-			<div class="kami-k1-cad-corner bottom-right"></div>
-			<div class="kami-k1-crosshair-h"></div>
-			<div class="kami-k1-crosshair-v"></div>
-
-			<!-- HUD Overlay -->
-			<div class="kami-k1-hud-overlay">
-				<div style="height:5rem;"></div>
-
-				<div class="kami-k1-hud-middle">
-					<!-- Left progress dots -->
-					<div class="kami-k1-hud-progress">
-						<div class="kami-k1-hud-node active" data-idx="0">
-							<div class="kami-k1-node-indicator">
-								<div class="kami-k1-node-dot"></div>
-								<div class="kami-k1-node-line"></div>
-							</div>
-							<div class="kami-k1-node-text">
-								<p class="kami-k1-node-num">01</p>
-								<p class="kami-k1-node-name">ESTABLISH</p>
-							</div>
-						</div>
-						<div class="kami-k1-hud-node" data-idx="1">
-							<div class="kami-k1-node-indicator">
-								<div class="kami-k1-node-dot"></div>
-								<div class="kami-k1-node-line"></div>
-							</div>
-							<div class="kami-k1-node-text">
-								<p class="kami-k1-node-num">02</p>
-								<p class="kami-k1-node-name">DISSOLVE</p>
-							</div>
-						</div>
-						<div class="kami-k1-hud-node" data-idx="2">
-							<div class="kami-k1-node-indicator">
-								<div class="kami-k1-node-dot"></div>
-								<div class="kami-k1-node-line"></div>
-							</div>
-							<div class="kami-k1-node-text">
-								<p class="kami-k1-node-num">03</p>
-								<p class="kami-k1-node-name">MECHANICS</p>
-							</div>
-						</div>
-						<div class="kami-k1-hud-node" data-idx="3">
-							<div class="kami-k1-node-indicator">
-								<div class="kami-k1-node-dot"></div>
-							</div>
-							<div class="kami-k1-node-text">
-								<p class="kami-k1-node-num">04</p>
-								<p class="kami-k1-node-name">REASSEMBLE</p>
-							</div>
-						</div>
-					</div>
-
-					<!-- Right diagnostics -->
-					<div class="kami-k1-hud-diagnostics">
-						<div class="kami-k1-diag-group">
-							<p class="kami-k1-diag-label">DISASSEMBLY TELEMETRY</p>
-							<p class="kami-k1-diag-val" style="color:var(--kami-accent);">STATE_ACTUATE: ON</p>
-						</div>
-						<div class="kami-k1-diag-group">
-							<p class="kami-k1-diag-label">GYRO_AXIAL</p>
-							<p id="kami-hud-telemetry-angle" class="kami-k1-diag-val">0°</p>
-						</div>
-						<div class="kami-k1-diag-group">
-							<p class="kami-k1-diag-label">ACCELEROMETER</p>
-							<p class="kami-k1-diag-val">0.98 G</p>
-						</div>
-						<div class="kami-k1-diag-group">
-							<p class="kami-k1-diag-label">VOLTAGE</p>
-							<p class="kami-k1-diag-val">3.72V // LI-ION</p>
-						</div>
-					</div>
-				</div>
-
-				<!-- Bottom status bar -->
-				<div class="kami-k1-hud-bottom">
-					<div class="kami-k1-hud-bottom-left">
-						<p style="margin:0;">FRAME_INDEX: <span id="kami-hud-frame-num">000</span> / 191</p>
-						<p style="margin:0;">TELEMETRY: <span id="kami-hud-telemetry-percent">0%</span></p>
-					</div>
-					<div class="kami-k1-hud-bottom-right">
-						<p style="margin:0;">STATUS: <span id="kami-hud-status-state" style="font-weight:bold;color:#737373;">SYS_STABLE / ASSEMBLED</span></p>
-						<p style="margin:0;">REFRESH_RATE: <span style="font-weight:bold;color:#10b981;">60.0 FPS</span></p>
-					</div>
-				</div>
-			</div>
-
-			<!-- Narrative overlay -->
-			<div class="kami-k1-narrative-overlay">
-				<div style="height:3rem;"></div>
-
-				<div class="kami-k1-narrative-middle">
-					<div class="kami-k1-narrative-box centered-bold visible">
-						<div>
-							<h2><?php echo esc_html( $settings['model_name'] ); ?><br/><span>BEYOND THE ORDINARY</span></h2>
-						</div>
-					</div>
-					<div class="kami-k1-narrative-box centered-mono">
-						<div>
-							A DISTILLED FUSION OF ELEMENTS,
-							<span>ENGINEERED INTO ITS MOST EXTRAORDINARY FORM.</span>
-						</div>
-					</div>
-					<div class="kami-k1-narrative-box split-layout">
-						<div class="title-part"><h2>AXIAL<br/><span>EXPLOSION</span></h2></div>
-						<div class="desc-part"><p>AS THE CHASSIS EXPANDS, THE COMPONENT GRID DISSOLVES TO REVEAL PRECISION MECHANICAL LAYERS.</p></div>
-					</div>
-					<div class="kami-k1-narrative-box centered-mono">
-						<div>
-							DOUBLE GASKET SUSPENSION MOUNTING
-							<span>ABSORBS SOUNDS FOR AN EXQUISITE DEEP THOCK PROFILE.</span>
-						</div>
-					</div>
-					<div class="kami-k1-narrative-box split-layout">
-						<div class="title-part"><h2>TACTILE<br/><span>PERFECTION</span></h2></div>
-						<div class="desc-part"><p>KAILH 5-PIN HOT-SWAPPABLE SOCKETS ENGAGE GOLD-PLATED CONTACTS FOR MAX LIFESPAN.</p></div>
-					</div>
-					<div class="kami-k1-narrative-box centered-mono">
-						<div>
-							ELIMINATING DELAY. POLLING RATE AT 1000HZ
-							<span>DELIVERS INSTANTANEOUS GAMING RESPONSE.</span>
-						</div>
-					</div>
-					<div class="kami-k1-narrative-box split-layout">
-						<div class="title-part"><h2>ENDLESS<br/><span>ENERGY</span></h2></div>
-						<div class="desc-part"><p>4000MAH POWER CELL DELIVERS CONTINUOUS WORKSTATION RUNTIME UP TO 200 HOURS.</p></div>
-					</div>
-					<div class="kami-k1-narrative-box centered-mono">
-						<div>
-							INTEGRATED SYSTEM STATUS HUD
-							<span>PROJECTS REAL-TIME OPERATIONAL TELEMETRY.</span>
-						</div>
-					</div>
-					<div class="kami-k1-narrative-box centered-bold">
-						<div>
-							<h2>ACQUIRE<br/><span><?php echo esc_html( $settings['model_name'] ); ?></span></h2>
-							<div class="cta-group">
-								<a href="<?php echo esc_attr( $settings['reserve_link'] ); ?>" class="cta-reserve">RESERVE UNIT</a>
-								<a href="<?php echo esc_attr( $settings['specs_link'] ); ?>" class="cta-specs">ENGINEERING SPECS</a>
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<!-- Scroll helper -->
-				<div class="kami-k1-scroll-helper">
-					<p>SCROLL TO DISCOVER</p>
-					<div class="kami-k1-mouse-icon">
-						<div class="kami-k1-mouse-wheel"></div>
-					</div>
-				</div>
-			</div>
-		</div>
-
-		<?php /* =========================================================
-		   SCROLL SPACER — 400vh tall, creates the scroll room
-		   The fixed canvas above "plays" as user scrolls through this
+		   STICKY CONTAINER & CANVAS LAYER
+		   Matches the Next.js structure: sticky container inside 400vh spacer
 		   ========================================================= */ ?>
 		<div id="scrollytelling" class="kami-k1-scrollytelling-container">
-			<!-- This is intentionally empty — just provides scroll height -->
+			<div class="kami-k1-sticky-container">
+				<div id="kami-k1-canvas-layer" class="kami-k1-canvas-layer">
+					<canvas id="kami-k1-canvas"></canvas>
+					<div class="kami-k1-vignette-vertical"></div>
+					<div class="kami-k1-vignette-radial"></div>
+
+					<!-- CAD Target Markings -->
+					<div class="kami-k1-cad-corner top-left"></div>
+					<div class="kami-k1-cad-corner top-right"></div>
+					<div class="kami-k1-cad-corner bottom-left"></div>
+					<div class="kami-k1-cad-corner bottom-right"></div>
+					<div class="kami-k1-crosshair-h"></div>
+					<div class="kami-k1-crosshair-v"></div>
+
+					<!-- HUD Overlay -->
+					<div class="kami-k1-hud-overlay">
+						<div style="height:5rem;"></div>
+
+						<div class="kami-k1-hud-middle">
+							<!-- Left progress dots -->
+							<div class="kami-k1-hud-progress">
+								<div class="kami-k1-hud-node active" data-idx="0">
+									<div class="kami-k1-node-indicator">
+										<div class="kami-k1-node-dot"></div>
+										<div class="kami-k1-node-line"></div>
+									</div>
+									<div class="kami-k1-node-text">
+										<p class="kami-k1-node-num">01</p>
+										<p class="kami-k1-node-name">ESTABLISH</p>
+									</div>
+								</div>
+								<div class="kami-k1-hud-node" data-idx="1">
+									<div class="kami-k1-node-indicator">
+										<div class="kami-k1-node-dot"></div>
+										<div class="kami-k1-node-line"></div>
+									</div>
+									<div class="kami-k1-node-text">
+										<p class="kami-k1-node-num">02</p>
+										<p class="kami-k1-node-name">DISSOLVE</p>
+									</div>
+								</div>
+								<div class="kami-k1-hud-node" data-idx="2">
+									<div class="kami-k1-node-indicator">
+										<div class="kami-k1-node-dot"></div>
+										<div class="kami-k1-node-line"></div>
+									</div>
+									<div class="kami-k1-node-text">
+										<p class="kami-k1-node-num">03</p>
+										<p class="kami-k1-node-name">MECHANICS</p>
+									</div>
+								</div>
+								<div class="kami-k1-hud-node" data-idx="3">
+									<div class="kami-k1-node-indicator">
+										<div class="kami-k1-node-dot"></div>
+									</div>
+									<div class="kami-k1-node-text">
+										<p class="kami-k1-node-num">04</p>
+										<p class="kami-k1-node-name">REASSEMBLE</p>
+									</div>
+								</div>
+							</div>
+
+							<!-- Right diagnostics -->
+							<div class="kami-k1-hud-diagnostics">
+								<div class="kami-k1-diag-group">
+									<p class="kami-k1-diag-label">DISASSEMBLY TELEMETRY</p>
+									<p class="kami-k1-diag-val" style="color:var(--kami-accent);">STATE_ACTUATE: ON</p>
+								</div>
+								<div class="kami-k1-diag-group">
+									<p class="kami-k1-diag-label">GYRO_AXIAL</p>
+									<p id="kami-hud-telemetry-angle" class="kami-k1-diag-val">0°</p>
+								</div>
+								<div class="kami-k1-diag-group">
+									<p class="kami-k1-diag-label">ACCELEROMETER</p>
+									<p class="kami-k1-diag-val">0.98 G</p>
+								</div>
+								<div class="kami-k1-diag-group">
+									<p class="kami-k1-diag-label">VOLTAGE</p>
+									<p class="kami-k1-diag-val">3.72V // LI-ION</p>
+								</div>
+							</div>
+						</div>
+
+						<!-- Bottom status bar -->
+						<div class="kami-k1-hud-bottom">
+							<div class="kami-k1-hud-bottom-left">
+								<p style="margin:0;">FRAME_INDEX: <span id="kami-hud-frame-num">000</span> / 191</p>
+								<p style="margin:0;">TELEMETRY: <span id="kami-hud-telemetry-percent">0%</span></p>
+							</div>
+							<div class="kami-k1-hud-bottom-right">
+								<p style="margin:0;">STATUS: <span id="kami-hud-status-state" style="font-weight:bold;color:#737373;">SYS_STABLE / ASSEMBLED</span></p>
+								<p style="margin:0;">REFRESH_RATE: <span style="font-weight:bold;color:#10b981;">60.0 FPS</span></p>
+							</div>
+						</div>
+					</div>
+
+					<!-- Narrative overlay -->
+					<div class="kami-k1-narrative-overlay">
+						<div style="height:3rem;"></div>
+
+						<div class="kami-k1-narrative-middle">
+							<div class="kami-k1-narrative-box centered-bold visible">
+								<div>
+									<h2><?php echo esc_html( $settings['model_name'] ); ?><br/><span>BEYOND THE ORDINARY</span></h2>
+								</div>
+							</div>
+							<div class="kami-k1-narrative-box centered-mono">
+								<div>
+									A DISTILLED FUSION OF ELEMENTS,
+									<span>ENGINEERED INTO ITS MOST EXTRAORDINARY FORM.</span>
+								</div>
+							</div>
+							<div class="kami-k1-narrative-box split-layout">
+								<div class="title-part"><h2>AXIAL<br/><span>EXPLOSION</span></h2></div>
+								<div class="desc-part"><p>AS THE CHASSIS EXPANDS, THE COMPONENT GRID DISSOLVES TO REVEAL PRECISION MECHANICAL LAYERS.</p></div>
+							</div>
+							<div class="kami-k1-narrative-box centered-mono">
+								<div>
+									DOUBLE GASKET SUSPENSION MOUNTING
+									<span>ABSORBS SOUNDS FOR AN EXQUISITE DEEP THOCK PROFILE.</span>
+								</div>
+							</div>
+							<div class="kami-k1-narrative-box split-layout">
+								<div class="title-part"><h2>TACTILE<br/><span>PERFECTION</span></h2></div>
+								<div class="desc-part"><p>KAILH 5-PIN HOT-SWAPPABLE SOCKETS ENGAGE GOLD-PLATED CONTACTS FOR MAX LIFESPAN.</p></div>
+							</div>
+							<div class="kami-k1-narrative-box centered-mono">
+								<div>
+									ELIMINATING DELAY. POLLING RATE AT 1000HZ
+									<span>DELIVERS INSTANTANEOUS GAMING RESPONSE.</span>
+								</div>
+							</div>
+							<div class="kami-k1-narrative-box split-layout">
+								<div class="title-part"><h2>ENDLESS<br/><span>ENERGY</span></h2></div>
+								<div class="desc-part"><p>4000MAH POWER CELL DELIVERS CONTINUOUS WORKSTATION RUNTIME UP TO 200 HOURS.</p></div>
+							</div>
+							<div class="kami-k1-narrative-box centered-mono">
+								<div>
+									INTEGRATED SYSTEM STATUS HUD
+									<span>PROJECTS REAL-TIME OPERATIONAL TELEMETRY.</span>
+								</div>
+							</div>
+							<div class="kami-k1-narrative-box centered-bold">
+								<div>
+									<h2>ACQUIRE<br/><span><?php echo esc_html( $settings['model_name'] ); ?></span></h2>
+									<div class="cta-group">
+										<a href="<?php echo esc_attr( $settings['reserve_link'] ); ?>" class="cta-reserve">RESERVE UNIT</a>
+										<a href="<?php echo esc_attr( $settings['specs_link'] ); ?>" class="cta-specs">ENGINEERING SPECS</a>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<!-- Scroll helper -->
+						<div class="kami-k1-scroll-helper">
+							<p>SCROLL TO DISCOVER</p>
+							<div class="kami-k1-mouse-icon">
+								<div class="kami-k1-mouse-wheel"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
 
 		<?php

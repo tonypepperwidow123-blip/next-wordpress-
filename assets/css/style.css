@@ -522,22 +522,45 @@ body .elementor-column:has(.kami-k1-scrollytelling-container) {
   z-index: 0;
 }
 
-/* Fixed canvas layer — always covers the viewport, exactly like Next.js source */
+/* Sticky container inside 400vh spacer */
+.kami-k1-sticky-container {
+  position: -webkit-sticky !important;
+  position: sticky !important;
+  top: 0 !important;
+  height: 100vh !important;
+  width: 100% !important;
+  overflow: hidden !important;
+  z-index: 5 !important;
+}
+
+.admin-bar .kami-k1-sticky-container {
+  top: 32px !important;
+  height: calc(100vh - 32px) !important;
+}
+
+@media screen and (max-width: 782px) {
+  .admin-bar .kami-k1-sticky-container {
+    top: 46px !important;
+    height: calc(100vh - 46px) !important;
+  }
+}
+
+/* Canvas layer inside the sticky container — absolutely positioned to cover container */
 .kami-k1-canvas-layer {
-  position: fixed;
-  inset: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: 5;
-  pointer-events: none;
-  background: #000;
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  z-index: 5 !important;
+  pointer-events: none !important;
+  background: #000 !important;
   /* Hidden until preload completes */
   opacity: 0;
-  transition: opacity 0.5s ease;
+  transition: opacity 0.5s ease !important;
 }
 
 .kami-k1-canvas-layer.ready {
-  opacity: 1;
+  opacity: 1 !important;
 }
 
 .kami-k1-canvas-layer canvas {
@@ -1816,16 +1839,282 @@ body .elementor-column:has(.kami-k1-scrollytelling-container) {
   max-width: 360px;
 }
 
+/* Container sizing overrides to match Next.js source layouts exactly */
 .kami-k1-bento-container {
-  max-width: 1200px;
+  max-width: 1280px !important;
+  width: 100% !important;
+  margin: 0 auto !important;
+  padding: 0 1.5rem !important;
+}
+
+@media (min-width: 768px) {
+  .kami-k1-bento-container {
+    padding: 0 3rem !important;
+  }
+}
+
+.kami-k1-cta-container {
+  max-width: 1024px !important;
+  width: 100% !important;
+  margin: 0 auto !important;
+  padding: 0 1.5rem !important;
+}
+
+@media (min-width: 768px) {
+  .kami-k1-cta-container {
+    padding: 0 3rem !important;
+  }
+}
+
+/* ─── CUSTOM HOTFIXES BY ANTIGRAVITY ─── */
+
+/* 1. Precise reset to prevent theme overrides from breaking navbar alignment */
+.kami-k1-navbar a,
+.kami-k1-navbar a:hover,
+.kami-k1-navbar a:focus,
+.kami-k1-navbar span,
+.kami-k1-navbar div,
+.kami-k1-navbar nav,
+.kami-k1-navbar button {
+  text-decoration: none !important;
+  border: none !important;
+  border-bottom: none !important;
+  box-shadow: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  outline: none !important;
+  background: none !important;
+  list-style: none !important;
+  line-height: 1.2 !important;
+}
+
+/* Re-apply required layout styles with !important to defeat theme styles */
+.kami-k1-navbar {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  z-index: 9999 !important;
+  transition: all 0.3s ease !important;
+  padding: 1.5rem 0 !important;
+  background: transparent !important;
+}
+
+.kami-k1-navbar.scrolled {
+  background: rgba(0, 0, 0, 0.85) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border-bottom: 1px solid #171717 !important;
+  padding: 1rem 0 !important;
+}
+
+.admin-bar .kami-k1-navbar {
+  top: 32px !important;
+}
+
+@media screen and (max-width: 782px) {
+  .admin-bar .kami-k1-navbar {
+    top: 46px !important;
+  }
 }
 
 .kami-k1-navbar-container {
-  max-width: 1200px;
+  max-width: 1280px !important;
+  margin: 0 auto !important;
+  padding: 0 1.5rem !important;
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  width: 100% !important;
+  height: auto !important;
 }
 
-/* Font mono utility class used by JS injection */
-.kami-k1-addon-wrapper .font-mono,
-.font-mono {
-  font-family: 'JetBrains Mono', 'Courier New', Courier, monospace !important;
+@media (min-width: 768px) {
+  .kami-k1-navbar-container {
+    padding: 0 3rem !important;
+  }
+}
+
+.kami-k1-brand {
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.5rem !important;
+}
+
+.kami-k1-brand-icon {
+  width: 32px !important;
+  height: 32px !important;
+  border-radius: 4px !important;
+  background: var(--kami-accent) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  position: relative !important;
+  overflow: hidden !important;
+  box-shadow: 0 0 10px rgba(239,68,68,0.3) !important;
+}
+
+.kami-k1-brand-icon svg {
+  width: 16px !important;
+  height: 16px !important;
+  color: #fff !important;
+  display: block !important;
+}
+
+.kami-k1-brand-text {
+  font-size: 18px !important;
+  font-weight: bold !important;
+  letter-spacing: 0.2em !important;
+  color: #fff !important;
+}
+
+.kami-k1-brand-text span {
+  color: var(--kami-accent) !important;
+  font-weight: bold !important;
+}
+
+.kami-k1-nav-links {
+  display: none !important;
+  gap: 2rem !important;
+  align-items: center !important;
+}
+
+@media (min-width: 768px) {
+  .kami-k1-nav-links {
+    display: flex !important;
+  }
+}
+
+.kami-k1-nav-links a {
+  font-size: 11px !important;
+  letter-spacing: 0.15em !important;
+  color: #a3a3a3 !important;
+  text-transform: uppercase !important;
+  transition: color 0.2s !important;
+  font-family: 'JetBrains Mono', monospace !important;
+}
+
+.kami-k1-nav-links a:hover {
+  color: #fff !important;
+}
+
+.kami-k1-navbar-cta {
+  display: none !important;
+}
+
+@media (min-width: 768px) {
+  .kami-k1-navbar-cta {
+    display: block !important;
+  }
+}
+
+.kami-k1-navbar-cta a {
+  position: relative !important;
+  padding: 0.6rem 1.5rem !important;
+  border: 1px solid var(--kami-accent) !important;
+  border-radius: 4px !important;
+  font-size: 11px !important;
+  letter-spacing: 0.15em !important;
+  color: #fff !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 0.25rem !important;
+  overflow: hidden !important;
+  transition: all 0.3s !important;
+  z-index: 1 !important;
+}
+
+.kami-k1-navbar-cta a::before {
+  content: "" !important;
+  position: absolute !important;
+  inset: 0 !important;
+  background: var(--kami-accent) !important;
+  transform: translateY(101%) !important;
+  transition: transform 0.3s ease-out !important;
+  z-index: -1 !important;
+}
+
+.kami-k1-navbar-cta a:hover::before {
+  transform: translateY(0) !important;
+}
+
+.kami-k1-navbar-cta a svg {
+  width: 14px !important;
+  height: 14px !important;
+  color: #fff !important;
+  display: block !important;
+  transition: transform 0.2s !important;
+}
+
+.kami-k1-navbar-cta a:hover svg {
+  transform: translateX(3px) !important;
+}
+
+.kami-k1-mobile-toggle {
+  display: block !important;
+  cursor: pointer !important;
+  padding: 4px !important;
+}
+
+@media (min-width: 768px) {
+  .kami-k1-mobile-toggle {
+    display: none !important;
+  }
+}
+
+.kami-k1-mobile-toggle svg {
+  width: 24px !important;
+  height: 24px !important;
+  color: #fff !important;
+  display: block !important;
+}
+
+/* 2. Suppression list of ALL theme headers */
+body:has(.kami-k1-navbar) .site-header,
+body:has(.kami-k1-navbar) #masthead,
+body:has(.kami-k1-navbar) #site-header,
+body:has(.kami-k1-navbar) header.entry-header,
+body:has(.kami-k1-navbar) .wp-block-template-part[class*="header"],
+body:has(.kami-k1-navbar) .elementor-location-header,
+body:has(.kami-k1-navbar) .main-header-bar-wrap,
+body:has(.kami-k1-navbar) .main-header-bar,
+body:has(.kami-k1-navbar) .ast-main-header-wrap,
+body:has(.kami-k1-navbar) #ast-fixed-header,
+body:has(.kami-k1-navbar) .ast-sticky-active,
+body:has(.kami-k1-navbar) .ast-sticky-header-active {
+  display: none !important;
+}
+
+/* 3. Eliminate layout gap / white screen issue between scrollytelling and specs section */
+body .elementor-section:has(.kami-k1-scrollytelling-container),
+body .elementor-column:has(.kami-k1-scrollytelling-container),
+body .elementor-widget-kami-k1-scrollytelling {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.elementor-element-29c6460 {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Force body and site backgrounds black at all times to avoid flashing white */
+body, html, #page, #content, .site, .site-content, .wp-site-blocks, .entry-content, .ast-container, #primary, #main {
+  background-color: #000000 !important;
+}
+
+/* ─── FOOTER HOTFIX BY ANTIGRAVITY ─── */
+.site-footer,
+.site-footer-focus-item,
+.site-below-footer-wrap,
+.ast-builder-grid-row-container {
+  background-color: #000000 !important;
+  color: #a3a3a3 !important;
+  border-top: 1px solid #171717 !important;
+}
+
+.site-footer a,
+.site-below-footer-wrap a {
+  color: #ffffff !important;
+  text-decoration: none !important;
 }
