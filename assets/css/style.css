@@ -164,6 +164,23 @@ body .elementor-column:has(.kami-k1-scrollytelling-container) {
   visibility: visible;
 }
 
+/* Hide preloader completely inside the Elementor editor to allow editing */
+.elementor-editor-active .kami-k1-preloader,
+body.elementor-editor-active .kami-k1-preloader,
+.elementor-editor-preview .kami-k1-preloader {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+/* In editor, let the canvas layer show immediately */
+.elementor-editor-active .kami-k1-canvas-layer,
+body.elementor-editor-active .kami-k1-canvas-layer {
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
 .kami-k1-preloader.fade-out {
   opacity: 0;
   visibility: hidden;

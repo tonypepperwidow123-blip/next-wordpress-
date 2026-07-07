@@ -243,7 +243,18 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // ─── Start ────────────────────────────────────────────────────────────────
-  // Lock scroll during preload
-  document.body.style.overflow = "hidden";
-  preload();
+  const isEditor = document.body.classList.contains("elementor-editor-active") || 
+                   (window.parent && window.parent.document.body.classList.contains("elementor-editor-active")) ||
+                   (typeof elementorFrontend !== "undefined" && elementorFrontend.isEditMode());
+
+  if (isEditor) {
+    // In Elementor editor, bypass preloader screens completely and do not lock scroll
+    if (preloader) preloader.style.display = "none";
+    if (canvasLayer) canvasLayer.classList.add("ready");
+    preload(); // Still load images in background for scrubbing preview
+  } else {
+    // Lock scroll during preload
+    document.body.style.overflow = "hidden";
+    preload();
+  }
 });
