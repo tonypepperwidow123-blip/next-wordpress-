@@ -901,7 +901,7 @@ class Elementor_Kami_K1_Scrollytelling_Widget extends \Elementor\Widget_Base {
 					<div class="kami-k1-narrative-overlay">
 						<div style="height:3rem;"></div>
 
-						<div class="kami-k1-narrative-middle">
+						<div class="kami-k1-narrative-middle" style="position:relative;">
 							<div class="kami-k1-narrative-box centered-bold visible">
 								<div>
 									<h2><?php echo esc_html( $settings['model_name'] ); ?><br/><span><?php echo esc_html( $settings['narrative_1_sub'] ); ?></span></h2>

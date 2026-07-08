@@ -845,6 +845,7 @@ body.elementor-editor-active .kami-k1-canvas-layer {
 }
 
 /* Narrative overlay sits inside the fixed canvas layer */
+/* Mirrors Next.js: absolute inset-0 z-10 w-full h-full flex flex-col justify-between p-12 */
 .kami-k1-narrative-overlay {
   position: absolute;
   inset: 0;
@@ -853,22 +854,32 @@ body.elementor-editor-active .kami-k1-canvas-layer {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 3rem 1.5rem;
+  padding: 3rem;
   pointer-events: none;
   z-index: 5;
+  box-sizing: border-box;
 }
 
+/* Mirrors Next.js: flex-1 flex items-center justify-center w-full max-w-7xl mx-auto px-6 md:px-12 */
 .kami-k1-narrative-middle {
   flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
-  max-width: 1200px;
-  margin: 0 auto;
   width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
   padding: 0 1.5rem;
+  box-sizing: border-box;
 }
 
+@media (min-width: 768px) {
+  .kami-k1-narrative-middle {
+    padding: 0 3rem;
+  }
+}
+
+/* Mirrors Next.js: w-full flex justify-center items-center pointer-events-none */
 .kami-k1-narrative-box {
   width: 100%;
   display: flex;
@@ -878,11 +889,15 @@ body.elementor-editor-active .kami-k1-canvas-layer {
   transition: opacity 0.5s ease, transform 0.5s ease;
   opacity: 0;
   transform: translateY(30px);
+  position: absolute;
+  left: 0;
+  right: 0;
 }
 
 .kami-k1-narrative-box.visible {
   opacity: 1;
   transform: translateY(0);
+  position: relative;
 }
 
 .kami-k1-narrative-box.centered-bold h2 {
@@ -964,27 +979,36 @@ body.elementor-editor-active .kami-k1-canvas-layer {
   color: #a3a3a3;
 }
 
+/* Mirrors Next.js: w-full grid grid-cols-1 md:grid-cols-12 gap-8 items-center max-w-5xl */
 .kami-k1-narrative-box.split-layout {
   display: grid;
   grid-template-columns: 1fr;
   gap: 2rem;
   text-align: left;
+  justify-content: flex-start;
+  width: 100%;
   max-width: 960px;
+  margin: 0 auto;
 }
 
-@media(min-width: 768px) {
+@media (min-width: 768px) {
   .kami-k1-narrative-box.split-layout {
     grid-template-columns: repeat(12, 1fr);
+    gap: 2rem;
+    align-items: center;
   }
 }
 
+/* Mirrors Next.js: md:col-span-7 text-left */
 .kami-k1-narrative-box.split-layout .title-part {
   grid-column: span 1;
+  text-align: left;
 }
 
-@media(min-width: 768px) {
+@media (min-width: 768px) {
   .kami-k1-narrative-box.split-layout .title-part {
     grid-column: span 7;
+    text-align: left;
   }
 }
 
@@ -995,35 +1019,47 @@ body.elementor-editor-active .kami-k1-canvas-layer {
   letter-spacing: -0.02em;
   color: #fff;
   margin: 0;
+  text-align: left;
 }
 
-@media(min-width: 768px) {
+@media (min-width: 768px) {
   .kami-k1-narrative-box.split-layout .title-part h2 {
     font-size: 11vh;
   }
 }
 
-.kami-k1-narrative-box.split-layout .desc-part {
-  grid-column: span 1;
+.kami-k1-narrative-box.split-layout .title-part h2 span {
+  color: #fff;
 }
 
-@media(min-width: 768px) {
+/* Mirrors Next.js: md:col-span-5 text-left md:pl-8 */
+.kami-k1-narrative-box.split-layout .desc-part {
+  grid-column: span 1;
+  text-align: left;
+  display: flex;
+  align-items: center;
+}
+
+@media (min-width: 768px) {
   .kami-k1-narrative-box.split-layout .desc-part {
     grid-column: span 5;
     padding-left: 2rem;
   }
 }
 
+/* Mirrors Next.js: font-mono text-[10px] md:text-xs tracking-[0.2em] text-neutral-400 uppercase leading-relaxed max-w-sm */
 .kami-k1-narrative-box.split-layout .desc-part p {
+  font-family: var(--kami-font-mono, 'Courier New', monospace);
   font-size: 10px;
   letter-spacing: 0.2em;
   color: #a3a3a3;
   text-transform: uppercase;
   line-height: 1.8;
   margin: 0;
+  max-width: 24rem;
 }
 
-@media(min-width: 768px) {
+@media (min-width: 768px) {
   .kami-k1-narrative-box.split-layout .desc-part p {
     font-size: 12px;
   }
